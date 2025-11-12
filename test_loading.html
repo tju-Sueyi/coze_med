@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加载状态测试</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin: 5px;
+        }
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 6px;
+            min-height: 100px;
+        }
+        .loading-skeleton {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .skeleton-line {
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .skeleton-line:last-child {
+            width: 60%;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10000;
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .notification-info {
+            border-left: 4px solid #3b82f6;
+        }
+        .notification i {
+            color: #3b82f6;
+            font-size: 18px;
+        }
+        .notification span {
+            color: #1f2937;
+            font-size: 14px;
+        }
+        .status {
+            padding: 10px;
+            background: #eff6ff;
+            border-left: 3px solid #3b82f6;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-section">
+        <h2>🧪 加载状态测试页面</h2>
+        <p>这个页面用于测试加载反馈功能是否正常工作</p>
+        
+        <div class="status">
+            <strong>测试环境：</strong>
+            <div id="env-info"></div>
+        </div>
+
+        <h3>测试1: 通知弹窗</h3>
+        <button class="btn btn-primary" onclick="testNotification()">
+            <i class="fas fa-bell"></i> 测试通知弹窗
+        </button>
+
+        <h3 style="margin-top: 30px;">测试2: 按钮加载状态</h3>
+        <button id="testBtn" class="btn btn-primary" onclick="testButtonLoading()">
+            <i class="fas fa-file-medical"></i> <span id="btnText">生成病历</span>
+        </button>
+
+        <h3 style="margin-top: 30px;">测试3: 骨架屏加载</h3>
+        <button class="btn btn-primary" onclick="testSkeletonLoading()">
+            <i class="fas fa-spinner"></i> 显示骨架屏
+        </button>
+
+        <div id="result"></div>
+
+        <h3 style="margin-top: 30px;">测试4: 完整流程</h3>
+        <button class="btn btn-primary" onclick="testFullFlow()">
+            <i class="fas fa-rocket"></i> 测试完整加载流程（3秒）
+        </button>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 测试结果</h2>
+        <div id="test-log" style="font-family: monospace; font-size: 12px; line-height: 1.8;"></div>
+    </div>
+
+    <script>
+        // 环境信息
+        document.getElementById('env-info').innerHTML = `
+            浏览器: ${navigator.userAgent.split(' ').pop()}<br>
+            时间: ${new Date().toLocaleString()}<br>
+            页面: test_loading.html
+        `;
+
+        let logCount = 0;
+        function log(message, type = 'info') {
+            logCount++;
+            const logDiv = document.getElementById('test-log');
+            const color = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6';
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+            logDiv.innerHTML += `<div style="color: ${color};">[${logCount}] ${icon} ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // 测试1: 通知弹窗
+        function testNotification() {
+            log('测试通知弹窗功能...');
+            showNotification('这是一条测试通知！', 'info');
+            log('通知已显示，应该在右上角看到蓝色弹窗', 'success');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-info-circle"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(400px)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // 测试2: 按钮加载状态
+        function testButtonLoading() {
+            log('测试按钮加载状态...');
+            const btn = document.getElementById('testBtn');
+            const btnText = document.getElementById('btnText');
+            const originalText = btnText.textContent;
+
+            // 设置加载状态
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'not-allowed';
+            btnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+            
+            log('按钮应该变灰并显示"生成中..."', 'success');
+
+            // 2秒后恢复
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btnText.textContent = originalText;
+                log('按钮已恢复正常状态', 'success');
+            }, 2000);
+        }
+
+        // 测试3: 骨架屏
+        function testSkeletonLoading() {
+            log('显示骨架屏加载动画...');
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <div class="loading-skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                    <div style="margin-top:12px; color:#64748b; text-align:center;">
+                        正在生成结构化病历…
+                    </div>
+                </div>
+            `;
+            log('骨架屏应该在下方显示', 'success');
+
+            setTimeout(() => {
+                result.innerHTML = '<div style="color: #10b981; font-weight: 600;">✅ 病历生成完成！</div>';
+                log('加载完成，显示结果', 'success');
+            }, 2000);
+        }
+
+        // 测试4: 完整流程
+        async function testFullFlow() {
+            log('开始完整流程测试...', 'info');
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+
+            // 1. 显示通知
+            log('步骤1: 显示通知弹窗');
+            showNotification('正在生成病历，请稍候...', 'info');
+
+            // 2. 显示骨架屏
+            log('步骤2: 显示骨架屏');
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <div class="loading-skeleton">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                    <div style="margin-top:12px; color:#64748b; text-align:center;">
+                        正在生成结构化病历…
+                    </div>
+                </div>
+            `;
+
+            // 3. 设置按钮状态
+            log('步骤3: 禁用按钮');
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+
+            // 4. 模拟等待
+            log('步骤4: 等待3秒（模拟API请求）...');
+            await new Promise(resolve => setTimeout(resolve, 3000));
+
+            // 5. 恢复状态
+            log('步骤5: 恢复状态，显示结果', 'success');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.innerHTML = originalText;
+            result.innerHTML = `
+                <div style="padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px; text-align: center;">
+                    <h3 style="margin: 0 0 10px 0;">🎉 测试成功！</h3>
+                    <p style="margin: 0;">所有加载状态都正常工作</p>
+                </div>
+            `;
+            log('✅ 完整流程测试完成！', 'success');
+        }
+
+        // 页面加载完成
+        log('测试页面加载完成，请点击按钮进行测试');
+    </script>
+</body>
+</html>
+

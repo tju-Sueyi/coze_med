@@ -1,0 +1,2735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧医疗AI平台 - 专业健康管理解决方案</title>
+    <!-- 高端字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    <!-- 站点图标与主题色 -->
+    <meta name="theme-color" content="#0c4a6e">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect rx='12' width='48' height='48' fill='%230c4a6e'/%3E%3Cpath d='M24 9a2 2 0 0 1 2 2v9h9a2 2 0 1 1 0 4h-9v9a2 2 0 1 1-4 0v-9h-9a2 2 0 1 1 0-4h9v-9a2 2 0 0 1 2-2Z' fill='white'/%3E%3C/svg%3E">
+    <meta name="description" content="智慧医疗AI平台，提供专业的症状分析、疾病预测、药物推荐等智能健康管理服务">
+    <meta name="keywords" content="医疗AI,智能诊断,健康管理,症状分析,疾病预测">
+    
+    <!-- 引入中医部分脚本：数字中医数据与核心逻辑 -->
+    <script src="中医部分/static/digital_tcm_data.js"></script>
+    <script>
+        // 暴露到全局，兼容中医部分 app.js 的动态导入逻辑
+        window._DigitalTCMDataProcessor = window.DigitalTCMDataProcessor || null;
+    </script>
+    <script src="中医部分/static/app.js"></script>
+    <!-- TailwindCSS for TCM 1:1 UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 4.7 for TCM icons -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 高端加载屏幕 -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-stethoscope"></i>
+                </div>
+                <div class="logo-pulse"></div>
+            </div>
+            <h2 class="loading-title">智慧医疗AI平台</h2>
+            <p class="loading-subtitle">专业健康管理解决方案</p>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 网站主体结构 -->
+    <div class="website-container">
+        <!-- 网站头部导航 -->
+        <header class="site-header">
+            <nav class="navbar">
+                <div class="nav-container">
+                    <!-- 品牌Logo -->
+                    <div class="brand-logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="brand-text">
+                            <h1>智慧医疗AI</h1>
+                            <span>MedicalAI Pro</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 主导航菜单 -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li class="nav-item">
+                            <a href="#home" class="nav-link active" data-page="home">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#services" class="nav-link" data-page="services">
+                                <i class="fas fa-medical-bag"></i>
+                                <span>医疗服务</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#ai-chat" class="nav-link" data-page="ai-chat">
+                                <i class="fas fa-robot"></i>
+                                <span>AI咨询</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#knowledge" class="nav-link" data-page="knowledge">
+                                <i class="fas fa-book-medical"></i>
+                                <span>健康知识</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#tcm-diagnosis" class="nav-link" data-page="tcm-diagnosis">
+                                <i class="fas fa-yin-yang"></i>
+                                <span>中医四诊</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#about" class="nav-link" data-page="about">
+                                <i class="fas fa-info-circle"></i>
+                                <span>关于我们</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <!-- 用户操作区 -->
+                    <div class="nav-actions">
+                        <button id="btn-login" class="btn btn-outline" onclick="showLogin()">登录</button>
+                        <button id="btn-register" class="btn btn-primary" onclick="showRegister()">注册</button>
+                        <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 首页内容 -->
+            <section id="home" class="page-section active">
+                <!-- Hero区域 -->
+                <div class="hero-section">
+                    <div class="hero-container">
+                        <div class="hero-content">
+                            <div class="hero-text">
+                                <h1 class="hero-title">
+                                    <span class="title-main">智慧医疗AI平台</span>
+                                    <span class="title-sub">引领健康管理新时代</span>
+                                </h1>
+                                <p class="hero-description">
+                                    基于前沿人工智能技术，为您提供专业的症状分析、疾病风险评估、
+                                    个性化健康建议和智能医疗咨询服务，让健康管理更科学、更便捷。
+                                </p>
+                                <div class="hero-actions">
+                                    <button class="btn btn-primary btn-large" onclick="showPage('ai-chat')">
+                                        <i class="fas fa-comments"></i>
+                                        开始AI咨询
+                                    </button>
+                                    <button class="btn btn-outline btn-large" onclick="showPage('services')">
+                                        <i class="fas fa-play"></i>
+                                        了解服务
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hero-visual">
+                                <div class="hero-image">
+                                    <div class="medical-illustration">
+                                        <i class="fas fa-heartbeat pulse-icon"></i>
+                                        <div class="floating-icons">
+                                            <i class="fas fa-stethoscope icon-float-1"></i>
+                                            <i class="fas fa-pills icon-float-2"></i>
+                                            <i class="fas fa-user-md icon-float-3"></i>
+                                            <i class="fas fa-chart-line icon-float-4"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 特色服务区域 -->
+                <div class="features-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2>核心服务特色</h2>
+                            <p>专业、智能、便捷的医疗AI解决方案</p>
+                        </div>
+                        <div class="features-grid">
+                            <div class="feature-card" onclick="showPage('ai-chat')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h3>智能症状分析</h3>
+                                <p>基于大数据和机器学习，准确分析症状，提供初步诊断建议</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showFeature('drug-recommendation')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-pills"></i>
+                                </div>
+                                <h3>个性化用药建议</h3>
+                                <p>根据患者情况和病史，智能推荐合适的药物治疗方案</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showFeature('health-monitoring')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chart-pulse"></i>
+                                </div>
+                                <h3>健康风险评估</h3>
+                                <p>综合分析生活习惯和体征数据，预测疾病风险</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showPage('knowledge')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <h3>健康知识库</h3>
+                                <p>海量医疗知识和健康资讯，帮助您了解疾病预防</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showPage('community')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <h3>病情交流社区</h3>
+                                <p>发帖、评论、回复与点赞，患者互助共进</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showFeature('vision-analyze')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <h3>拍照智能分析</h3>
+                                <p>识别药瓶/盒、检验单与皮肤外伤，输出专业结论</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showFeature('intelligent-triage')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-map-signs"></i>
+                                </div>
+                                <h3>智能分诊助手</h3>
+                                <p>根据症状智能推荐就诊科室，提升就医效率</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="window.location.href='medication.html'">
+                                <div class="feature-icon">
+                                    <i class="fas fa-capsules"></i>
+                                </div>
+                                <h3>个性化用药管理</h3>
+                                <p>智能记录用药情况，提供服药提醒和AI用药分析</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 医疗服务页面 -->
+            <section id="services" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>专业医疗服务</h2>
+                        <p>全方位的智能医疗解决方案</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-category">
+                            <h3>患者服务</h3>
+                            <div class="service-cards">
+                                <div class="service-card" onclick="showFeature('pre-consultation')">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <h4>智能预问诊</h4>
+                                    <p>AI引导收集病情信息，提高就诊效率</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('symptom-analysis')">
+                                    <i class="fas fa-search-plus"></i>
+                                    <h4>症状自检</h4>
+                                    <p>智能分析症状，提供初步诊断建议</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('health-record')">
+                                    <i class="fas fa-file-medical"></i>
+                                    <h4>健康档案</h4>
+                                    <p>个人健康数据管理和追踪</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('appointment')">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <h4>预约挂号</h4>
+                                    <p>在线预约专家门诊服务</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('intelligent-triage')">
+                                    <i class="fas fa-map-signs"></i>
+                                    <h4>智能分诊</h4>
+                                    <p>根据症状智能推荐就诊科室</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-category">
+                            <h3>医生工具</h3>
+                            <div class="service-cards">
+                                <div class="service-card" onclick="showFeature('doctor-emr')">
+                                    <i class="fas fa-microscope"></i>
+                                    <h4>结构化病历</h4>
+                                    <p>医生端一键生成病历与方案</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('patient-manage')">
+                                    <i class="fas fa-users"></i>
+                                    <h4>患者管理</h4>
+                                    <p>高效管理患者信息和病历</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('medical-reference')">
+                                    <i class="fas fa-book-open"></i>
+                                    <h4>医学参考</h4>
+                                    <p>最新医学文献和指南</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-category">
+                            <h3>家属关怀</h3>
+                            <div class="service-cards">
+                                <div class="service-card" onclick="showFeature('family-monitor')">
+                                    <i class="fas fa-heart"></i>
+                                    <h4>健康监护</h4>
+                                    <p>家人健康状况实时关注</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('care-guide')">
+                                    <i class="fas fa-hands-helping"></i>
+                                    <h4>护理指导</h4>
+                                    <p>专业的家庭护理建议</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('emergency-help')">
+                                    <i class="fas fa-ambulance"></i>
+                                    <h4>紧急求助</h4>
+                                    <p>紧急情况快速响应</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 智能分诊页面 -->
+            <section id="intelligent-triage" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>智能分诊助手</h2>
+                        <p>根据您的症状智能推荐合适的就诊科室</p>
+                    </div>
+
+                    <div class="triage-container">
+                        <!-- 症状选择区域 -->
+                        <div class="triage-step active" id="triage-step-1">
+                            <div class="step-header">
+                                <h3><i class="fas fa-thermometer-half"></i> 步骤 1: 选择症状</h3>
+                                <p>请勾选您当前的主要症状（可多选）</p>
+                            </div>
+
+                            <div class="symptoms-categories">
+                                <!-- 全身症状 -->
+                                <div class="symptom-category">
+                                    <h4><i class="fas fa-thermometer-full"></i> 全身症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="发热"> 发热
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="寒战"> 寒战
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="乏力"> 乏力
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="消瘦"> 消瘦
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="盗汗"> 盗汗
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="体重变化"> 体重变化
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 头部症状 -->
+                                <div class="symptom-category">
+                                    <h4><i class="fas fa-head-side"></i> 头部症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="头痛"> 头痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="头晕"> 头晕
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="失眠"> 失眠
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="嗜睡"> 嗜睡
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="记忆力减退"> 记忆力减退
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="意识障碍"> 意识障碍
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 心胸症状 -->
+                                <div class="symptom-category">
+                                    <h4><i class="fas fa-heartbeat"></i> 心胸症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="胸痛"> 胸痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="心悸"> 心悸
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="胸闷"> 胸闷
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="气促"> 气促
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="呼吸困难"> 呼吸困难
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="咳嗽"> 咳嗽
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 消化系统症状 -->
+                                <div class="symptom-category">
+                                    <h4><i class="fas fa-stomach"></i> 消化系统症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="腹痛"> 腹痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="腹胀"> 腹胀
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="恶心"> 恶心
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="呕吐"> 呕吐
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="腹泻"> 腹泻
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="便秘"> 便秘
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="消化不良"> 消化不良
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 泌尿系统症状 -->
+                                <div class="symptom-category">
+                                    <h4><i class="fas fa-kidneys"></i> 泌尿系统症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="尿频"> 尿频
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="尿急"> 尿急
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="尿痛"> 尿痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="血尿"> 血尿
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="少尿"> 少尿
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="多尿"> 多尿
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 其他症状 -->
+                                <div class="symptom-category">
+                                    <h4><i class="fas fa-plus-circle"></i> 其他症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="关节痛"> 关节痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="肌肉痛"> 肌肉痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="皮疹"> 皮疹
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="出血"> 出血
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="淋巴结肿大"> 淋巴结肿大
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="水肿"> 水肿
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 手动输入其他症状 -->
+                            <div class="manual-symptom-input">
+                                <h4><i class="fas fa-edit"></i> 或输入其他症状 <span class="manual-symptom-input-desc">回车或点击添加按钮</span></h4>
+                                <div style="display: flex; gap: 8px; align-items: flex-end;">
+                                    <input type="text" id="manual-symptom-input" placeholder="例如：眼睛干涩、耳鸣、牙龈肿痛等..." style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;" onkeydown="if(event.key==='Enter') addManualSymptom()" />
+                                    <button class="btn btn-outline" onclick="addManualSymptom()" style="white-space: nowrap;">
+                                        <i class="fas fa-plus"></i> 添加症状
+                                    </button>
+                                </div>
+                                <div id="manual-symptoms-list" class="manual-symptoms-list" style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; min-height: 20px;">
+                                    <!-- 手动添加的症状标签将显示在这里 -->
+                                </div>
+                            </div>
+
+                            <div class="step-actions">
+                                <button class="btn btn-outline" onclick="clearAllSymptoms()">
+                                    <i class="fas fa-trash"></i> 清空选择
+                                </button>
+                                <button class="btn btn-primary" onclick="nextTriageStep()">
+                                    <i class="fas fa-arrow-right"></i> 下一步：选择科室
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 科室推荐区域 -->
+                        <div class="triage-step" id="triage-step-2">
+                            <div class="step-header">
+                                <h3><i class="fas fa-hospital"></i> 步骤 2: 科室推荐结果</h3>
+                                <p>基于您选择的症状，AI为您推荐最适合的就诊科室</p>
+                            </div>
+
+                            <div class="triage-results" id="triage-results">
+                                <!-- 推荐结果将在这里显示 -->
+                            </div>
+
+                            <div class="step-actions">
+                                <button class="btn btn-outline" onclick="prevTriageStep()">
+                                    <i class="fas fa-arrow-left"></i> 返回修改症状
+                                </button>
+                                <button class="btn btn-primary" onclick="restartTriage()">
+                                    <i class="fas fa-redo"></i> 重新开始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快速症状标签 -->
+                    <div class="quick-symptoms-section">
+                        <h3><i class="fas fa-tags"></i> 常见症状组合</h3>
+                        <div class="quick-symptom-tags">
+                            <span class="quick-symptom-tag" onclick="selectQuickSymptoms('感冒发烧')">
+                                <i class="fas fa-thermometer-half"></i> 感冒发烧
+                            </span>
+                            <span class="quick-symptom-tag" onclick="selectQuickSymptoms('头痛头晕')">
+                                <i class="fas fa-head-side"></i> 头痛头晕
+                            </span>
+                            <span class="quick-symptom-tag" onclick="selectQuickSymptoms('胸痛气促')">
+                                <i class="fas fa-heartbeat"></i> 胸痛气促
+                            </span>
+                            <span class="quick-symptom-tag" onclick="selectQuickSymptoms('腹痛腹泻')">
+                                <i class="fas fa-stomach"></i> 腹痛腹泻
+                            </span>
+                            <span class="quick-symptom-tag" onclick="selectQuickSymptoms('关节疼痛')">
+                                <i class="fas fa-user-injured"></i> 关节疼痛
+                            </span>
+                            <span class="quick-symptom-tag" onclick="selectQuickSymptoms('皮肤问题')">
+                                <i class="fas fa-allergies"></i> 皮肤问题
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 智能预问诊页面 -->
+            <section id="pre-consultation" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>智能预问诊</h2>
+                        <p>AI智能引导，帮您在就诊前收集完整的病情信息</p>
+                    </div>
+
+                    <!-- 预问诊步骤容器 -->
+                    <div class="pre-consultation-container">
+                        <!-- 步骤1: 输入主诉 -->
+                        <div class="consultation-step active" id="consultation-step-1">
+                            <div class="step-header">
+                                <div class="step-number">1</div>
+                                <div class="step-info">
+                                    <h3><i class="fas fa-notes-medical"></i> 描述主要不适</h3>
+                                    <p>请简要描述您当前最主要的不适症状或就诊原因</p>
+                                </div>
+                            </div>
+
+                            <div class="knowledge-card" style="padding: 24px; margin: 20px 0;">
+                                <div class="form-group">
+                                    <label for="chief-complaint-input" style="display: block; margin-bottom: 12px; font-weight: 500; color: #1e293b;">
+                                        <i class="fas fa-pen"></i> 主诉（请详细描述）
+                                    </label>
+                                    <textarea 
+                                        id="chief-complaint-input" 
+                                        class="input" 
+                                        rows="4" 
+                                        placeholder="例如：最近三天持续头痛，伴有发热和恶心...&#10;&#10;提示：请尽可能详细描述症状、持续时间、严重程度等"
+                                        style="width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; line-height: 1.6; resize: vertical;"
+                                    ></textarea>
+                                    <div style="margin-top: 8px; font-size: 12px; color: #64748b;">
+                                        <i class="fas fa-info-circle"></i> 建议包含：症状名称、出现时间、持续时长、严重程度、诱发因素等
+                                    </div>
+                                </div>
+
+                                <div class="quick-complaint-tags" style="margin-top: 20px;">
+                                    <div style="margin-bottom: 10px; font-weight: 500; color: #475569;">
+                                        <i class="fas fa-tags"></i> 常见症状快速选择：
+                                    </div>
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                        <span class="chip" onclick="setQuickComplaint('头痛伴发热')">头痛伴发热</span>
+                                        <span class="chip" onclick="setQuickComplaint('胃痛伴恶心')">胃痛伴恶心</span>
+                                        <span class="chip" onclick="setQuickComplaint('胸痛伴气促')">胸痛伴气促</span>
+                                        <span class="chip" onclick="setQuickComplaint('咳嗽伴咽痛')">咳嗽伴咽痛</span>
+                                        <span class="chip" onclick="setQuickComplaint('腹泻伴腹痛')">腹泻伴腹痛</span>
+                                        <span class="chip" onclick="setQuickComplaint('失眠多梦')">失眠多梦</span>
+                                        <span class="chip" onclick="setQuickComplaint('关节疼痛')">关节疼痛</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step-actions" style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+                                <button class="btn btn-outline" onclick="showPage('services')">
+                                    <i class="fas fa-arrow-left"></i> 返回
+                                </button>
+                                <button class="btn btn-primary" onclick="startPreConsultation()">
+                                    <i class="fas fa-arrow-right"></i> 开始问诊
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 步骤2: 回答AI问题 -->
+                        <div class="consultation-step" id="consultation-step-2">
+                            <div class="step-header">
+                                <div class="step-number">2</div>
+                                <div class="step-info">
+                                    <h3><i class="fas fa-question-circle"></i> 回答智能问题</h3>
+                                    <p>AI将根据您的主诉，询问一些必要的问题以全面了解病情</p>
+                                </div>
+                            </div>
+
+                            <div class="consultation-progress" style="margin: 20px 0;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: #64748b;">
+                                    <span>问诊进度</span>
+                                    <span id="question-progress-text">0/0</span>
+                                </div>
+                                <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+                                    <div id="question-progress-bar" style="background: linear-gradient(135deg, #0ea5e9, #0c4a6e); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+
+                            <div id="consultation-questions-container" class="consultation-questions">
+                                <!-- AI生成的问题将在这里显示 -->
+                            </div>
+
+                            <div class="step-actions" style="display: flex; gap: 12px; justify-content: space-between; margin-top: 20px;">
+                                <button class="btn btn-outline" onclick="backToStep1()">
+                                    <i class="fas fa-arrow-left"></i> 修改主诉
+                                </button>
+                                <button class="btn btn-primary" onclick="submitPreConsultation()" id="submit-consultation-btn" disabled>
+                                    <i class="fas fa-check"></i> 提交问诊
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 步骤3: 查看报告 -->
+                        <div class="consultation-step" id="consultation-step-3">
+                            <div class="step-header">
+                                <div class="step-number">3</div>
+                                <div class="step-info">
+                                    <h3><i class="fas fa-file-medical-alt"></i> 预问诊报告</h3>
+                                    <p>AI已为您生成预问诊报告，可供医生查看</p>
+                                </div>
+                            </div>
+
+                            <div id="consultation-report-container" class="consultation-report">
+                                <!-- 生成的报告将在这里显示 -->
+                            </div>
+
+                            <div class="step-actions" style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+                                <button class="btn btn-outline" onclick="restartConsultation()">
+                                    <i class="fas fa-redo"></i> 重新开始
+                                </button>
+                                <button class="btn btn-outline" onclick="viewAllReports()">
+                                    <i class="fas fa-folder-open"></i> 查看历史记录
+                                </button>
+                                <button class="btn btn-primary" onclick="showPage('services')">
+                                    <i class="fas fa-check"></i> 完成
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 帮助提示 -->
+                    <div class="notification" style="margin-top: 30px;">
+                        <div class="notification-content">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>温馨提示：</strong>
+                                <p style="margin: 5px 0 0;">预问诊报告会自动保存到您的健康档案中，就诊时可向医生出示，帮助医生更快了解您的病情。如果您还未登录，建议先登录以保存记录。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 医生端：结构化病历页面 -->
+            <section id="doctor-emr" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>医生端 · 结构化病历</h2>
+                        <p>输入关键病情信息，AI生成结构化病历与治疗方案</p>
+                    </div>
+
+                    <!-- 预问诊报告查看区域 -->
+                    <div class="pre-consultation-reports-section" style="margin-bottom: 24px;">
+                        <div class="knowledge-card" style="padding: 20px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                                <div>
+                                    <h3 style="margin: 0; color: #1e293b;"><i class="fas fa-clipboard-list"></i> 患者预问诊报告</h3>
+                                    <p style="margin: 4px 0 0; font-size: 14px; color: #64748b;">查看患者提前填写的预问诊信息，快速了解病情</p>
+                                </div>
+                                <button class="btn btn-primary" onclick="loadPatientPreConsultation()">
+                                    <i class="fas fa-sync-alt"></i> 加载预问诊
+                                </button>
+                            </div>
+                            <div id="doctor-pre-consultation-display" style="min-height: 60px;">
+                                <div style="text-align: center; padding: 40px; color: #94a3b8;">
+                                    <i class="fas fa-clipboard-list" style="font-size: 48px; margin-bottom: 12px; opacity: 0.3;"></i>
+                                    <p>点击上方按钮加载患者的预问诊报告</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 病历生成区域 -->
+                    <div class="doctor-emr-section" style="margin-bottom: 24px;">
+                        <div class="knowledge-card" style="padding:24px; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                            <div class="emr-input-section">
+                                <div class="notification" style="margin-bottom:20px; background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-left: 4px solid #3b82f6;">
+                                    <div class="notification-content">
+                                        <i class="fas fa-lightbulb" style="color: #3b82f6;"></i>
+                                        <span style="color: #1e40af; font-weight: 500;">请先简要输入关键信息（主诉、起病时间、伴随症状、既往史等），再生成病历。可参考患者预问诊报告快速录入。</span>
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 8px;">
+                                    <label style="font-weight: 600; color: #1e293b; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                                        <i class="fas fa-edit" style="color: #3b82f6;"></i>
+                                        病情摘要
+                                    </label>
+                                </div>
+                                <textarea id="emr-brief-input" class="input" rows="6" placeholder="示例：女，28岁，发热3天伴咽痛，最高38.5℃，干咳，无气促；既往体健，无药物过敏…"></textarea>
+                                <div class="emr-controls" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:16px; padding: 16px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+                                    <button id="emr-generate-btn" class="btn btn-primary" style="padding: 10px 20px; font-weight: 600;">
+                                        <i class="fas fa-file-medical"></i> <span id="emr-generate-text">生成病历</span>
+                                    </button>
+                                    <label class="chip" style="cursor:pointer; background: white; border: 1px solid #cbd5e1; padding: 8px 14px; color: #1e293b; font-weight: 500;">
+                                        <input id="emr-append-toggle" type="checkbox" onclick="toggleAppendMode()" style="margin-right: 6px;">追加模式
+                                    </label>
+                                    <label class="chip" style="cursor:pointer; background: white; border: 1px solid #cbd5e1; padding: 8px 14px; color: #1e293b; font-weight: 500;">
+                                        <input id="emr-stream-toggle" type="checkbox" style="margin-right: 6px;">流式生成
+                                    </label>
+                                    <button id="emr-clear-btn" class="btn btn-outline" style="padding: 10px 16px;">
+                                        <i class="fas fa-eraser"></i> 清空
+                                    </button>
+                                    <div style="margin-left: auto; display:flex; gap:10px; align-items: center; background: white; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                                        <button id="emr-voice-toggle" class="btn btn-outline" style="padding: 8px 14px;">
+                                            <i class="fas fa-microphone"></i> 语音输入
+                                        </button>
+                                        <span id="emr-voice-status" style="font-size:13px; color:#64748b; font-weight: 500;">语音：未启动</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 病历显示和治疗方案区域 -->
+                    <div class="doctor-content-grid" style="display:grid; grid-template-columns: 420px 1fr; gap:32px; align-items:start; margin-top:32px;">
+                        <!-- 病历显示区域 -->
+                        <div class="knowledge-card" style="padding:20px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+                            <div class="emr-display-section">
+                                <div class="section-title" style="margin-bottom:16px;">
+                                    <h3 style="margin:0; color:#1f2937; font-size:1.3rem; font-weight:600; display:flex; align-items:center; gap:8px;">
+                                        <i class="fas fa-file-medical" style="color:#3b82f6; font-size:1.4rem;"></i>
+                                        病历内容
+                                    </h3>
+                                </div>
+                                <div id="emr-result" class="knowledge-ai-result" style="min-height:500px;">
+                                    <div class="emr-content" style="display:none;">
+                                        <div class="emr-actions" style="margin-bottom:16px; display:flex; gap:8px; justify-content:flex-end;">
+                                            <button id="emr-edit-btn" class="btn btn-outline btn-sm">
+                                                <i class="fas fa-edit"></i> 编辑
+                                            </button>
+                                            <button id="emr-regenerate-btn" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-refresh"></i> 重新生成
+                                            </button>
+                                        </div>
+                                        <div id="emr-display" class="emr-display" style="line-height:1.7; font-size:14px; color:#374151; background:#fafbfc; padding:16px; border-radius:8px; border:1px solid #e5e7eb;"></div>
+
+<style>
+.emr-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #ffffff;
+}
+
+.emr-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.emr-textarea::placeholder {
+    color: #9ca3af;
+    font-style: normal;
+}
+
+.emr-section h4 {
+    margin: 0 0 8px 0;
+    color: #1f2937;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.emr-section h4::before {
+    content: "";
+    display: inline-block;
+    width: 3px;
+    height: 16px;
+    background-color: #3b82f6;
+    border-radius: 2px;
+    margin-right: 6px;
+}
+
+.plan-content {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #374151;
+    background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    position: relative;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.plan-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 8px 8px 0 0;
+}
+
+.plan-content h3 {
+    color: #1f2937;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 16px 0 8px 0;
+    border-left: 3px solid #10b981;
+    padding-left: 10px;
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    padding: 6px 0 6px 10px;
+    margin-left: -16px;
+    margin-right: -16px;
+    border-radius: 0;
+    position: relative;
+}
+
+.plan-content h3::before {
+    content: '';
+    position: absolute;
+    left: -16px;
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 0 0 8px 0;
+}
+
+.plan-content h3:first-child {
+    margin-top: 0;
+}
+
+.plan-content p {
+    margin: 10px 0;
+    text-align: justify;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+.plan-content ul, .plan-content ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.plan-content li {
+    margin: 6px 0;
+    line-height: 1.7;
+    padding-left: 2px;
+    position: relative;
+}
+
+.plan-content li::marker {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.plan-content strong {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.treatment-plan-item {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.treatment-plan-item:hover {
+    border-color: #10b981;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.12);
+    transform: translateY(-1px);
+}
+
+.plan-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 12px;
+}
+
+.plan-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.plan-title input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.plan-title h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.plan-score {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: white;
+    padding: 5px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.plan-reason {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-left: 4px solid #0ea5e9;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.plan-reason::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+    border-radius: 8px 8px 0 0;
+}
+
+.plan-reason i {
+    margin-top: 2px;
+    color: #0ea5e9;
+    flex-shrink: 0;
+}
+
+.plan-reason-text {
+    flex: 1;
+    line-height: 1.6;
+}
+
+.plan-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.plan-actions .btn {
+    padding: 7px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.plan-actions .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.plan-actions .btn i {
+    margin-right: 4px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .doctor-content-grid {
+        grid-template-columns: 380px 1fr;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .doctor-content-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .doctor-content-stack {
+        gap: 32px;
+    }
+}
+
+@media (max-width: 768px) {
+    .treatment-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .treatment-controls .btn,
+    .treatment-controls .chip,
+    .treatment-controls .input {
+        width: 100%;
+        text-align: center;
+    }
+
+    .plans-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .treatment-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* 角色选择样式 */
+.role-option {
+    transition: all 0.2s ease;
+}
+
+.role-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: #3b82f6 !important;
+}
+
+.role-option input[type="radio"]:checked ~ * {
+    color: #3b82f6;
+}
+
+.role-option:has(input[type="radio"]:checked) {
+    border-color: #3b82f6 !important;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 加载动画 */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+</style>
+                                    </div>
+                                    <div class="emr-empty" style="display:flex; align-items:center; justify-content:center; height:400px; color:#64748b; flex-direction:column; gap:12px;">
+                                        <i class="fas fa-file-medical" style="font-size:2.5rem; opacity:0.5; color:#3b82f6;"></i>
+                                        <span style="font-size:15px;">暂无病历内容，请先生成病历</span>
+                                    </div>
+                                </div>
+                                <div class="emr-export-actions" style="margin-top:16px; display:flex; gap:8px;">
+                                    <button id="emr-export-pdf" class="btn btn-outline btn-sm">
+                                        <i class="fas fa-file-pdf"></i> 导出PDF
+                                    </button>
+                                    <button id="emr-export-docx" class="btn btn-outline btn-sm">
+                                        <i class="fas fa-file-word"></i> 导出Docx
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 治疗方案区域 -->
+                        <div class="knowledge-card" style="padding:28px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+                            <div class="treatment-section">
+                                <div class="section-title" style="margin-bottom:20px;">
+                                    <h3 style="margin:0; color:#1f2937; font-size:1.4rem; font-weight:600; display:flex; align-items:center; gap:10px;">
+                                        <i class="fas fa-notes-medical" style="color:#10b981; font-size:1.6rem;"></i>
+                                        治疗方案推荐
+                                    </h3>
+                                </div>
+                                <div class="treatment-controls" style="margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                                    <button id="plan-generate-btn" class="btn btn-secondary" style="padding:8px 16px; font-size:14px;">
+                                        <i class="fas fa-notes-medical"></i> <span id="plan-generate-text">生成方案</span>
+                                    </button>
+                                    <button id="plan-clear-btn" class="btn btn-outline" style="padding:8px 16px; font-size:14px;">
+                                        <i class="fas fa-eraser"></i> 清空
+                                    </button>
+                                    <label class="chip" style="cursor:pointer; padding:6px 12px; background:#f0f9ff; border:1px solid #0ea5e9; font-size:13px; color: #0c4a6e; font-weight: 500;">
+                                        <input id="plan-multiple-toggle" type="checkbox" checked>多方案模式
+                                    </label>
+                                    <select id="plan-count-select" class="input" style="padding:6px 10px; font-size:13px; border-radius:4px;">
+                                        <option value="3">3个方案</option>
+                                        <option value="4">4个方案</option>
+                                        <option value="5">5个方案</option>
+                                    </select>
+                                </div>
+                                <div id="plan-result" class="knowledge-ai-result" style="min-height:480px;">
+                                    <div class="plan-loading" style="display:none; text-align:center; padding:50px;">
+                                        <i class="fas fa-spinner fa-spin" style="font-size:1.8rem; margin-bottom:12px; color:#10b981;"></i>
+                                        <p style="font-size:15px; color:#64748b;">正在生成治疗方案...</p>
+                                    </div>
+                                    <div class="plans-container" style="display:none;">
+                                        <div class="plans-header" style="margin-bottom:20px; display:flex; align-items:center; justify-content:space-between;">
+                                            <h4 style="margin:0; color:#1f2937; font-size:1.2rem; font-weight:600;">方案列表</h4>
+                                            <div style="display:flex; gap:10px; align-items:center;">
+                                                <span class="plan-count" style="font-size:13px; color:#64748b; background:#f1f5f9; padding:3px 10px; border-radius:10px;"></span>
+                                                <div class="sort-controls" style="display:flex; gap:6px;">
+                                                    <button class="sort-btn active" data-sort="score" style="padding:4px 10px; font-size:12px; background:#f0f9ff; border:1px solid #0ea5e9; color:#0ea5e9;">推荐度</button>
+                                                    <button class="sort-btn" data-sort="confidence" style="padding:4px 10px; font-size:12px; background:#f0f9ff; border:1px solid #0ea5e9; color:#0ea5e9;">可信度</button>
+                                                    <button class="sort-btn" data-sort="name" style="padding:4px 10px; font-size:12px; background:#f0f9ff; border:1px solid #0ea5e9; color:#0ea5e9;">名称</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="plans-list" style="display:flex; flex-direction:column; gap:16px; max-height:580px; overflow-y:auto; padding-right:6px;"></div>
+                                        <div class="plans-actions" style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+                                            <button class="btn btn-outline btn-sm" onclick="selectAllPlans()" style="padding:6px 12px; font-size:13px;">
+                                                <i class="fas fa-check-square"></i> 全选
+                                            </button>
+                                            <button class="btn btn-outline btn-sm" onclick="clearSelection()" style="padding:6px 12px; font-size:13px;">
+                                                <i class="fas fa-square"></i> 清空选择
+                                            </button>
+                                            <button class="btn btn-outline btn-sm" onclick="compareSelectedPlans()" style="padding:6px 12px; font-size:13px;">
+                                                <i class="fas fa-balance-scale"></i> 对比方案
+                                            </button>
+                                            <button class="btn btn-primary btn-sm" onclick="saveSelectedPlans()" id="save-selected-btn" style="padding:6px 12px; font-size:13px;">
+                                                <i class="fas fa-save"></i> 保存选中
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="treatment-actions" style="margin-top:20px; display:flex; gap:10px; justify-content:space-between;">
+                                    <div>
+                                        <button id="plan-export-pdf" class="btn btn-outline btn-sm" style="padding:6px 12px; font-size:13px;">
+                                            <i class="fas fa-file-pdf"></i> 导出PDF
+                                        </button>
+                                        <button id="plan-export-docx" class="btn btn-outline btn-sm" style="padding:6px 12px; font-size:13px;">
+                                            <i class="fas fa-file-word"></i> 导出Docx
+                                        </button>
+                                    </div>
+                                    <button id="plan-feedback-btn" class="btn btn-outline btn-sm" onclick="showPlanFeedbackModal()" style="padding:6px 12px; font-size:13px;">
+                                        <i class="fas fa-star"></i> 反馈评价
+                                    </button>
+                                </div>
+                                <small style="color:#64748b; display:block; margin-top:12px; font-size:12px; background:#f8fafc; padding:8px; border-radius:6px; border-left:2px solid #f59e0b;">提示：生成内容仅供临床参考，不替代医生专业判断。</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI咨询页面 -->
+            <section id="ai-chat" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>AI智能咨询</h2>
+                        <p>24小时在线医疗AI助手</p>
+                    </div>
+                    
+                    <div class="chat-container">
+                        <div class="chat-sidebar">
+                            <div class="consultation-types">
+                                <h3>咨询类型</h3>
+                                <div class="type-buttons">
+                                    <button class="type-btn active" data-type="symptom">症状分析</button>
+                                    <button class="type-btn" data-type="drug">用药咨询</button>
+                                    <button class="type-btn" data-type="health">健康建议</button>
+                                    <button class="type-btn" data-type="emergency">紧急咨询</button>
+                                    <button class="type-btn" data-type="diagnosis">病情问诊</button>
+                                </div>
+                            </div>
+                            
+                            <div class="ai-connection-status">
+                                <h3>AI服务状态</h3>
+                                <div class="connection-info">
+                                    <span id="connection-status" class="status-offline">检查中...</span>
+                                    <button id="reconnect-btn" class="reconnect-btn" onclick="forceReconnect()">重新连接</button>
+                                </div>
+                            </div>
+                            
+                            <div class="active-record">
+                                <h3>当前激活档案</h3>
+                                <div id="active-record-box" class="knowledge-card">
+                                    <p>未选择档案</p>
+                                </div>
+                            </div>
+                            
+                            <div class="quick-symptoms">
+                                <h3>常见症状</h3>
+                                <div class="symptom-tags">
+                                    <span class="symptom-tag" onclick="selectSymptom('发热')">发热</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('头痛')">头痛</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('咳嗽')">咳嗽</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('胸痛')">胸痛</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('腹痛')">腹痛</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('恶心')">恶心</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-main">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message ai-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <p>您好！我是您的AI医疗助手。请描述您的症状或健康问题，我将为您提供专业的分析和建议。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input-area">
+                                <div class="input-container">
+                                    <textarea id="messageInput" placeholder="请描述您的症状或问题..." rows="2"></textarea>
+                                    <div class="input-actions">
+                                        <button class="action-btn voice-btn" title="语音输入">
+                                        <i class="fas fa-microphone"></i>
+                                        </button>
+                                        <button class="action-btn send-btn" onclick="sendMessage()" title="发送">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 拍照分析页面 -->
+            <section id="vision" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>拍照智能分析（Qwen-VL-Max）</h2>
+                        <p>支持三类识别：药瓶/盒、检验单、皮肤/外伤</p>
+                    </div>
+                    <div class="knowledge-card" style="padding:16px; display:flex; flex-direction:column; gap:12px;">
+                        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                            <label>分析对象：</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <label class="chip" style="cursor:pointer;"><input type="radio" name="vision-kind" value="drug" checked style="margin-right:6px;">药瓶/盒</label>
+                                <label class="chip" style="cursor:pointer;"><input type="radio" name="vision-kind" value="report" style="margin-right:6px;">检验单</label>
+                                <label class="chip" style="cursor:pointer;"><input type="radio" name="vision-kind" value="skin" style="margin-right:6px;">皮肤/外伤</label>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                            <input id="vision-file" type="file" accept="image/*" style="padding:8px;" />
+                            <button class="btn btn-outline" id="vision-camera-start"><i class="fas fa-video"></i> 开启摄像头</button>
+                            <button class="btn btn-outline" id="vision-camera-capture"><i class="fas fa-camera"></i> 拍照</button>
+                            <button class="btn btn-outline" id="vision-camera-stop"><i class="fas fa-stop"></i> 关闭摄像头</button>
+                            <button class="btn btn-primary" id="vision-analyze-btn"><i class="fas fa-wand-magic-sparkles"></i> 开始分析</button>
+                        </div>
+                        <div id="vision-live" style="display:none;">
+                            <video id="vision-video" autoplay playsinline style="max-width:100%; border-radius:12px; background:#000;"></video>
+                        </div>
+                        <input id="vision-note" type="text" placeholder="可选：补充说明（如部位、持续时间、症状等）" class="input" />
+                        <div id="vision-preview" style="display:none;">
+                            <img id="vision-img" src="" alt="预览" style="max-width:100%; border-radius:12px;" />
+                        </div>
+                        <div id="vision-result" class="knowledge-ai-result" style="display:none;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 病情交流社区页面 -->
+            <section id="community" class="page-section">
+                <div class="container">
+                    <!-- 社区头部导航 -->
+                    <div class="community-header">
+                        <div class="community-nav">
+                            <div class="community-nav-left">
+                                <h2 class="community-title">病情交流社区</h2>
+                                <span class="community-subtitle">分享医疗经验，交流健康心得</span>
+                            </div>
+                            <div class="community-nav-right">
+                                <div class="community-search-bar">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input id="community-search-input" type="text" placeholder="搜索帖子、用户或话题..." />
+                                    <button id="community-search-btn" class="search-btn">搜索</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 社区主体内容 -->
+                    <div class="community-body">
+
+                        <!-- 左侧主要内容区 -->
+                        <div class="community-main">
+                            <!-- 发布器 -->
+                            <div class="community-publisher">
+                                <div class="publisher-header">
+                                    <div class="user-avatar">
+                                        <div class="avatar-circle">用</div>
+                                        <div class="user-info">
+                                            <div class="user-name">匿名用户</div>
+                                            <div class="user-desc">分享你的医疗经历</div>
+                                    </div>
+                                    </div>
+                                    <button class="publisher-close" id="community-post-refresh">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <div class="publisher-content">
+                                    <textarea id="community-post-input" placeholder="分享您的经历或提出问题（请勿泄露隐私信息）"></textarea>
+                                </div>
+
+                                <div class="publisher-toolbar">
+                                    <div class="toolbar-left">
+                                        <div class="toolbar-section">
+                                            <input id="community-tag-input" type="text" placeholder="添加话题标签" />
+                                            <div id="community-tags" class="tags-container"></div>
+                                        </div>
+                                        <div class="toolbar-section">
+                                            <label class="upload-btn" for="community-image-file">
+                                                <i class="fas fa-images"></i>
+                                                <span>图片/视频</span>
+                                            </label>
+                                            <input id="community-image-file" type="file" accept="image/*,video/*" multiple style="display:none;" />
+                                            <button class="toolbar-btn" id="community-emoji-btn">
+                                                <i class="far fa-face-smile"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="toolbar-right">
+                                        <button class="publish-btn" id="community-post-submit">
+                                            <i class="fas fa-paper-plane"></i>
+                                            发布
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="community-image-preview" class="media-preview"></div>
+                                <div id="community-emoji-panel" class="emoji-panel" style="display:none;"></div>
+
+                                <div id="community-auth-hint" class="auth-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    发帖、评论与点赞需要先登录
+                            </div>
+                            </div>
+
+                            <!-- 筛选工具栏 -->
+                            <div class="community-filter">
+                                <div class="filter-tabs">
+                                    <button class="filter-tab active" data-filter="all">全部</button>
+                                    <button class="filter-tab" data-filter="hot">热门</button>
+                                    <button class="filter-tab" data-filter="follow">关注</button>
+                                    <button class="filter-tab" data-filter="nearby">附近</button>
+                        </div>
+                                <div class="filter-actions">
+                                    <input id="community-filter-tag" type="text" placeholder="筛选话题标签" />
+                                    <button id="community-filter-apply" class="apply-btn">应用</button>
+                                    <button id="community-filter-clear" class="clear-btn">清除</button>
+                                </div>
+                    </div>
+
+                            <div id="community-search-status" class="search-status" style="display:none;"></div>
+
+                            <!-- 帖子列表 -->
+                            <div id="community-feed" class="posts-container"></div>
+
+                            <div class="load-more-container">
+                                <button id="community-load-more" class="load-more-btn" style="display:none;">
+                                    <i class="fas fa-arrow-down"></i>
+                                    加载更多
+                                </button>
+                        </div>
+                        </div>
+
+                        <!-- 右侧边栏 -->
+                        <div class="community-sidebar">
+                            <!-- 热度榜 -->
+                            <div class="trending-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">
+                                        <i class="fas fa-fire"></i>
+                                        热度榜
+                                    </h3>
+                                    <button id="community-trending-refresh" class="refresh-btn">
+                                        <i class="fas fa-redo"></i>
+                                        换一批
+                                    </button>
+                                </div>
+                                <div id="community-trending-list" class="trending-list"></div>
+                    </div>
+
+                            <!-- 推荐话题 -->
+                            <div class="topics-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">
+                                        <i class="fas fa-hashtag"></i>
+                                        热门话题
+                                    </h3>
+                                </div>
+                                <div class="topics-list">
+                                    <div class="topic-item">
+                                        <span class="topic-tag">#感冒</span>
+                                        <span class="topic-count">1.2k 讨论</span>
+                                    </div>
+                                    <div class="topic-item">
+                                        <span class="topic-tag">#糖尿病</span>
+                                        <span class="topic-count">856 讨论</span>
+                                    </div>
+                                    <div class="topic-item">
+                                        <span class="topic-tag">#中医养生</span>
+                                        <span class="topic-count">642 讨论</span>
+                                    </div>
+                                    <div class="topic-item">
+                                        <span class="topic-tag">#心理健康</span>
+                                        <span class="topic-count">423 讨论</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 社区规范 -->
+                            <div class="rules-section">
+                                <div class="section-header">
+                                    <h3 class="section-title">
+                                        <i class="fas fa-shield-alt"></i>
+                                        社区规范
+                                    </h3>
+                        </div>
+                                <div class="rules-content">
+                                    <div class="rule-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        尊重他人，友好交流
+                    </div>
+                                    <div class="rule-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        保护隐私，不泄露个人信息
+                                    </div>
+                                    <div class="rule-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        理性讨论，避免医疗建议冲突
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 医学参考页面 -->
+            <section id="medical-reference" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>医学参考中心</h2>
+                        <p>专业的医学文献搜索和临床指南查询</p>
+                    </div>
+
+                    <!-- 医学参考工具栏 -->
+                    <div class="medical-toolbar knowledge-card">
+                        <div class="toolbar-section">
+                            <input id="medical-search-input" type="text" placeholder="输入医学关键词，如：高血压、糖尿病、冠心病..." class="input" />
+                            <button id="medical-search-btn" class="btn btn-primary">
+                                <i class="fas fa-search"></i> 文献搜索
+                            </button>
+                        </div>
+                        <div class="toolbar-section">
+                            <select id="medical-category-select" class="input">
+                                <option value="all">全科医学</option>
+                                <option value="internal">内科</option>
+                                <option value="surgery">外科</option>
+                                <option value="pediatrics">儿科</option>
+                                <option value="obstetrics">妇产科</option>
+                                <option value="emergency">急诊医学</option>
+                            </select>
+                            <button id="guidelines-btn" class="btn btn-secondary">
+                                <i class="fas fa-clipboard-list"></i> 指南查询
+                            </button>
+                            <button id="verify-btn" class="btn btn-outline">
+                                <i class="fas fa-shield-alt"></i> 验证来源
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 医学参考结果区域 -->
+                    <div id="medical-results" class="medical-results">
+                        <div class="medical-welcome">
+                            <div class="welcome-header">
+                                <i class="fas fa-book-medical"></i>
+                                <h2>医学参考中心</h2>
+                            </div>
+                            <p>输入关键词搜索医学文献，或点击"指南查询"获取最新医学指南和共识</p>
+                            <div class="welcome-features">
+                                <div class="feature-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>医学文献搜索</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-clipboard-list"></i>
+                                    <span>临床指南查询</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    <span>权威医学知识</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 健康档案页面 -->
+            <section id="records" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>健康档案</h2>
+                        <p>管理并切换您的个人健康档案</p>
+                    </div>
+                    <div id="records-auth-hint" style="display:none; margin:16px 0;">
+                        <div class="notification notification-warning">
+                            <div class="notification-content">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>请先登录以管理健康档案。</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="records-panel" style="display:none;">
+                        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+                            <div style="flex:2 1 480px; min-width:320px;">
+                                <h3 style="margin-bottom:12px;">我的档案</h3>
+                                <div id="records-list" class="knowledge-grid"></div>
+                                <h3 style="margin:20px 0 12px;">报告</h3>
+                                <div class="knowledge-card" style="padding:0; overflow:hidden;">
+                                    <div id="records-reports" style="max-height:360px; overflow:auto; padding:12px; display:grid; gap:12px;"></div>
+                                </div>
+                            </div>
+                            <div style="flex:1 1 320px; min-width:280px;">
+                                <h3 style="margin-bottom:12px;">新建档案</h3>
+                                <div class="knowledge-card" style="padding:16px;">
+                                    <div style="display:flex; flex-direction:column; gap:12px;">
+                                        <input id="record-name" type="text" placeholder="姓名（必填）" />
+                                        <input id="record-age" type="number" placeholder="年龄" />
+                                        <select id="record-gender">
+                                            <option value="unknown">性别（未知）</option>
+                                            <option value="male">男</option>
+                                            <option value="female">女</option>
+                                        </select>
+                                        <button class="btn btn-primary" onclick="createNewRecord()">
+                                            <i class="fas fa-plus"></i> 新建
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 健康知识页面 -->
+            <section id="knowledge" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>健康知识库</h2>
+                        <p>专业医疗知识与健康资讯</p>
+                    </div>
+                    
+                    <!-- 知识库工具条 -->
+                    <div class="knowledge-toolbar" style="display:flex; gap:12px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+                        <div class="knowledge-searchbar" style="display:flex; gap:8px; align-items:center; flex:1 1 520px;">
+                            <select id="knowledge-kind" class="select">
+                                <option value="auto">全部</option>
+                                <option value="drug">药品</option>
+                                <option value="disease">疾病</option>
+                                <option value="wellness">养生</option>
+                            </select>
+                            <input id="knowledge-search" type="search" placeholder="输入药品或疾病名称...（Enter直接AI搜索）" class="input" />
+                            <select id="knowledge-aspect" class="select"></select>
+                            <button id="knowledge-ai-search-btn" class="btn btn-primary" style="white-space:nowrap;">
+                                <i class="fas fa-magnifying-glass"></i> 搜索
+                            </button>
+                        </div>
+                        <select id="knowledge-category" style="flex:0 1 180px; min-width:160px; padding:10px; border:1px solid #cbd5e1; border-radius:10px;">
+                            <option value="all">全部分类</option>
+                            <option value="disease">疾病百科</option>
+                            <option value="wellness">健康养生</option>
+                            <option value="medication">用药安全</option>
+                        </select>
+                        <label style="display:flex; align-items:center; gap:8px;">
+                            <input id="knowledge-fav-only" type="checkbox" />
+                            <span>仅看收藏</span>
+                        </label>
+                    </div>
+                    <div id="knowledge-ai-result" class="knowledge-ai-result" style="display:none;"></div>
+
+                    
+                    <!-- 快速筛选与热门主题 -->
+                    <div class="knowledge-quick" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+                        <button class="chip" data-cat="all">全部</button>
+                        <button class="chip" data-cat="disease">疾病百科</button>
+                        <button class="chip" data-cat="wellness">健康养生</button>
+                        <button class="chip" data-cat="medication">用药安全</button>
+                        <span style="width:1px; background:#e2e8f0; margin:0 4px;"></span>
+                        <button class="chip" data-kw="发烧">发烧</button>
+                        <button class="chip" data-kw="高血压">高血压</button>
+                        <button class="chip" data-kw="糖尿病">糖尿病</button>
+                        <button class="chip" data-kw="睡眠">睡眠</button>
+                        <button class="chip" data-kw="饮食">饮食</button>
+                        <button class="chip" data-kw="运动">运动</button>
+                    </div>
+
+                    <!-- 动态知识卡片列表 -->
+                    <div id="knowledge-list" class="knowledge-cards"></div>
+                    
+                    <!-- 医学最新资讯 -->
+                    <div class="section-header" style="margin-top:28px; display:flex; align-items:end; justify-content:space-between; gap:12px;">
+                        <div>
+                            <h3 style="font-size:1.4rem;">医学最新资讯</h3>
+                            <p style="font-size:0.95rem; color:#64748b;">实时了解医学前沿与健康新知（支持联网，失败则本地示例）</p>
+                        </div>
+                        <button id="btn-news-refresh" class="btn btn-outline" style="white-space:nowrap;">换一换</button>
+                    </div>
+                    <div id="news-list" class="knowledge-cards"></div>
+                    <div style="text-align:center; margin-top:16px;">
+                        <button id="knowledge-load-more" class="btn btn-outline" style="display:none;">加载更多</button>
+                    </div>
+                    
+                    <div class="knowledge-grid">
+                        <div class="knowledge-category">
+                            <div style="display:flex; align-items:center; justify-content:space-between;">
+                                <h3>疾病百科</h3>
+                                <button id="btn-reshuffle-disease" class="btn btn-outline">换一换</button>
+                            </div>
+                            <div class="knowledge-cards">
+                                <div class="knowledge-card" id="static-disease-1" style="cursor:pointer;">
+                                    <h4>常见疾病</h4>
+                                    <p>感冒、发烧、头痛等常见疾病的症状、原因和治疗方法</p>
+                                </div>
+                                <div class="knowledge-card" id="static-disease-2" style="cursor:pointer;">
+                                    <h4>慢性疾病</h4>
+                                    <p>高血压、糖尿病、心脏病等慢性疾病的管理和预防</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="knowledge-category">
+                            <div style="display:flex; align-items:center; justify-content:space-between;">
+                                <h3>健康养生</h3>
+                                <button id="btn-reshuffle-wellness" class="btn btn-outline">换一换</button>
+                            </div>
+                            <div class="knowledge-cards">
+                                <div class="knowledge-card" id="static-wellness-1" style="cursor:pointer;">
+                                    <h4>饮食营养</h4>
+                                    <p>健康饮食搭配、营养补充和食疗养生知识</p>
+                                </div>
+                                <div class="knowledge-card" id="static-wellness-2" style="cursor:pointer;">
+                                    <h4>运动健身</h4>
+                                    <p>科学运动方法、健身指导和运动安全知识</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 中医四诊页面 -->
+            <section id="tcm-diagnosis" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>AI智慧中医四诊仪</h2>
+                        <p>传承千年中医智慧，融合现代AI技术</p>
+                    </div>
+
+                    <!-- 四诊功能卡片（Tailwind 1:1） -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="feature-card bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                            <div class="w-16 h-16 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-3">
+                                <i class="fa fa-heartbeat text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-sm md:text-base">智能把脉</h3>
+                        </div>
+
+                        <div class="feature-card bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                            <div class="w-16 h-16 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-3">
+                                <i class="fa fa-eye text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-sm md:text-base">中医望诊</h3>
+                        </div>
+
+                        <div class="feature-card bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                            <div class="w-16 h-16 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-3">
+                                <i class="fa fa-comments text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-sm md:text-base">远程问诊</h3>
+                        </div>
+
+                        <div class="feature-card bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center hover:bg-white/20 transition-all duration-300 cursor-pointer transform hover:scale-105">
+                            <div class="w-16 h-16 mx-auto bg-white/10 rounded-full flex items-center justify-center mb-3">
+                                <i class="fa fa-file-text-o text-2xl text-accent"></i>
+                            </div>
+                            <h3 class="text-sm md:text-base">健康档案</h3>
+                        </div>
+                    </div>
+
+                    <!-- 中央内容区（1:1） -->
+                    <div class="flex flex-col md:flex-row gap-6 mb-8">
+                        <div class="w-full md:w-1/3">
+                            <div class="space-y-4">
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 circle-glow">
+                                            <i class="fa fa-stethoscope text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">无创检测</h3>
+                                            <p class="text-xs text-white/70">无创伤健康数据采集</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 circle-glow">
+                                            <i class="fa fa-bolt text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">经络指标</h3>
+                                            <p class="text-xs text-white/70">经络运行状态分析</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 circle-glow">
+                                            <i class="fa fa-balance-scale text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">体质辨识</h3>
+                                            <p class="text-xs text-white/70">中医体质类型判定</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 circle-glow">
+                                            <i class="fa fa-exclamation-triangle text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">疾患风险</h3>
+                                            <p class="text-xs text-white/70">潜在健康风险评估</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-1/3">
+                            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 h-full flex flex-col items-center justify-center">
+                                <div class="relative w-full max-w-xs aspect-square mb-4">
+                                    <div class="absolute inset-0 bg-white/5 rounded-full flex items-center justify-center">
+                                        <svg class="w-3/4 h-3/4" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M30,50 C20,60 20,80 20,100 C20,130 20,160 30,180 M70,50 C80,60 80,80 80,100 C80,130 80,160 70,180" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="2"/>
+                                            <circle cx="30" cy="40" r="10" fill="rgba(255,255,255,0.7)"/>
+                                            <circle cx="70" cy="40" r="10" fill="rgba(255,255,255,0.7)"/>
+                                            <path d="M50,20 C50,30 30,40 30,40 M50,20 C50,30 70,40 70,40" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                                        </svg>
+                                    </div>
+                                    <div class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-accent rounded-full animate-pulse"></div>
+                                    <div class="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-accent rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+                                    <div class="absolute top-2/3 left-3/4 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-accent rounded-full animate-pulse" style="animation-delay: 1s"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-1/3">
+                            <div class="space-y-4">
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 circle-glow">
+                                            <i class="fa fa-line-chart text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">数字中医</h3>
+                                            <p class="text-xs text-white/70">诊断结果数据化展示</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 circle-glow">
+                                            <i class="fa fa-sliders text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">理疗参数</h3>
+                                            <p class="text-xs text-white/70">个性化理疗方案参数</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center mr-4 circle-glow">
+                                            <i class="fa fa-stethoscope text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">脏腑辨证</h3>
+                                            <p class="text-xs text-white/70">中医脏腑功能分析</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="detection-card bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 cursor-pointer">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-white/10 rounded-full flex items中心 justify-center mr-4 circle-glow">
+                                            <i class="fa fa-leaf text-xl text-accent"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-medium">调理建议</h3>
+                                            <p class="text-xs text-white/70">个性化养生调理方案</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 当前档案显示 -->
+                    <div class="text-center mb-4">
+                        <div id="current-archive" class="bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 inline-block text-sm text-white/80">
+                            当前档案: 未选择
+                        </div>
+                    </div>
+
+                    <!-- 操作按钮区域 -->
+                    <div class="text-center mb-8 space-y-4">
+                        <button id="start-detection" class="bg-white text-primary font-semibold py-3 px-8 rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">开启检测</button>
+                        <button id="manage-archives" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105"><i class="fa fa-folder-open mr-2"></i>档案管理</button>
+                        <button id="generate-report" class="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">生成健康报告</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 结果弹窗（1:1） -->
+            <div id="result-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden overflow-y-auto py-8">
+                <div class="bg-white backdrop-blur-md rounded-2xl p-8 w-full max-w-4xl mx-4 max-h-[90vh] flex flex-col border border-gray-200">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold mb-2 text-gray-800">AI智慧中医健康报告</h2>
+                        <p class="text-sm text-gray-600">基于多维度中医诊断的个性化健康评估</p>
+                        <div class="flex justify-center items-center mt-2 text-xs text-gray-500">
+                            <span>报告编号: <span id="report-id">TCM-</span></span>
+                            <span class="mx-2">•</span>
+                            <span>生成时间: <span id="report-time"></span></span>
+                        </div>
+                    </div>
+                    <div id="diagnosis-result" class="space-y-6 overflow-y-auto flex-1 bg-white rounded-lg p-4 border border-gray-200"></div>
+                    <div class="flex space-x-4 mt-8 pt-6 border-t border-gray-300">
+                        <button id="save-result" class="flex-1 bg-green-500 text-white font-medium py-3 rounded-lg hover:bg-green-600 transition-all duration-300 flex items-center justify-center"><i class="fa fa-download mr-2"></i> 下载报告</button>
+                        <button id="print-result" class="flex-1 bg-blue-500 text-white font-medium py-3 rounded-lg hover:bg-blue-600 transition-all duration-300 flex items-center justify-center"><i class="fa fa-print mr-2"></i> 打印报告</button>
+                        <button id="close-modal" class="flex-1 bg-gray-500 text-white font-medium py-3 rounded-lg hover:bg-gray-600 transition-all duration-300">关闭</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 摄像头拍照弹窗（1:1） -->
+            <div id="camera-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+                <div class="bg-white backdrop-blur-md rounded-2xl p-6 w-full max-w-2xl mx-4 border border-gray-200">
+                    <div class="text-center mb-4">
+                        <h2 id="camera-modal-title" class="text-xl font-bold mb-2 text-gray-800">舌诊拍照</h2>
+                        <p id="camera-modal-desc" class="text-sm text-gray-600">请将舌头伸出，点击拍照按钮</p>
+                    </div>
+                    <div class="relative w-full aspect-video bg-black rounded-lg mb-4 overflow-hidden">
+                        <video id="camera-preview" class="w-full h-full object-cover"></video>
+                        <div id="camera-guide" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div id="tongue-guide" class="w-2/3 h-1/2 border-2 border-green-500 rounded-lg hidden">
+                                <div class="absolute -bottom-8 left-0 right-0 text-center text-green-500">请将舌头放入框内</div>
+                            </div>
+                            <div id="face-guide" class="w-3/4 h-3/4 border-2 border-green-500 rounded-full hidden">
+                                <div class="absolute -bottom-8 left-0 right-0 text-center text-green-500">请将面部对准圆圈</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button id="camera-cancel" class="flex-1 bg-gray-500 text-white font-medium py-2 rounded-lg hover:bg-gray-600 transition-all duration-300"><i class="fa fa-times mr-1"></i> 取消</button>
+                        <button id="camera-capture" class="flex-1 bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"><i class="fa fa-camera mr-1"></i> 拍照</button>
+                        <button id="camera-upload" class="flex-1 bg-green-500 text-white font-medium py-2 rounded-lg hover:bg-green-600 transition-all duration-300"><i class="fa fa-upload mr-1"></i> 上传</button>
+                    </div>
+                    <input type="file" id="file-upload" accept="image/*" class="hidden">
+                </div>
+            </div>
+
+            <!-- 照片确认弹窗（1:1） -->
+            <div id="photo-confirm-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+                <div class="bg-white backdrop-blur-md rounded-2xl p-6 w-full max-w-md mx-4 border border-gray-200">
+                    <div class="text-center mb-4">
+                        <h2 class="text-xl font-bold mb-2 text-gray-800">确认照片</h2>
+                        <p class="text-sm text-gray-600">请确认照片是否清晰可用于分析</p>
+                    </div>
+            <div class="w-full aspect-square bg-gray-100 rounded-lg mb-4 overflow-hidden flex items-center justify-center border border-gray-200">
+                        <img id="captured-photo" class="max-w-full max-h-full object-contain" src="" alt="拍摄的照片">
+                    </div>
+                    <div class="flex space-x-4">
+                        <button id="photo-retake" class="flex-1 bg-gray-500 text-white font-medium py-2 rounded-lg hover:bg-gray-600 transition-all duration-300"><i class="fa fa-refresh mr-1"></i> 重拍</button>
+                        <button id="photo-confirm" class="flex-1 bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"><i class="fa fa-check mr-1"></i> 确认</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 等待分析弹窗（1:1） -->
+            <div id="waiting-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+                <div class="bg-white backdrop-blur-md rounded-2xl p-8 w-full max-w-md mx-4 text-center border border-gray-200">
+                    <div class="w-16 h-16 mx-auto mb-6">
+                        <div class="w-full h-full border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
+                    </div>
+                    <h2 class="text-xl font-bold mb-2 text-gray-800">正在分析中</h2>
+                    <p class="text-sm text-gray-600 mb-4">AI正在分析您的图像，请稍候...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                        <div id="analysis-progress" class="bg-blue-500 h-2 rounded-full transition-all duration-1000"></div>
+                    </div>
+                    <p class="text-xs text-gray-500">分析完成后将自动生成健康报告</p>
+                </div>
+            </div>
+
+            <!-- 档案管理（1:1） -->
+            <div id="manage-archives-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[9999] hidden">
+                <div class="bg-white backdrop-blur-md rounded-2xl p-6 w-full max-w-6xl mx-4 max-h-[90vh] overflow-hidden">
+                    <div class="text-center mb-4">
+                        <h2 class="text-xl font-bold mb-2 text-gray-800">健康档案管理</h2>
+                        <p class="text-sm text-gray-600">请选择要操作的档案或创建新档案</p>
+                    </div>
+                    <div class="flex gap-6 h-[500px]">
+                        <!-- 左侧：档案列表 -->
+                        <div class="w-2/5">
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">档案列表</h3>
+                            <div class="max-h-80 overflow-y-auto mb-4 border border-gray-200 rounded-lg p-2">
+                                <ul id="archives-list" class="space-y-2"></ul>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button onclick="tcmApp.createNewArchive()" class="flex-1 bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"><i class="fa fa-plus mr-1"></i> 新建档案</button>
+                                <button onclick="tcmApp.closeManageArchivesModal()" class="flex-1 bg-gray-500 text-white font-medium py-2 rounded-lg hover:bg-gray-600 transition-all duration-300">关闭</button>
+                            </div>
+                        </div>
+                        <!-- 右侧：报告详情 -->
+                        <div class="w-3/5">
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">报告列表</h3>
+                            <div id="archives-detail" class="h-80 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-gray-50">
+                                <div class="text-sm text-gray-500">请选择左侧档案查看报告列表</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 创建档案（1:1） -->
+            <div id="create-archive-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+                <div class="bg-white backdrop-blur-md rounded-2xl p-6 w-full max-w-md mx-4 border border-gray-200">
+                    <div class="text-center mb-4">
+                        <h2 class="text-xl font-bold mb-2 text-gray-800">创建新档案</h2>
+                        <p class="text-sm text-gray-600">请填写档案信息</p>
+                    </div>
+                    <div class="space-y-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">姓名</label>
+                            <input type="text" id="archive-name" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入姓名">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">手机号码</label>
+                            <input type="tel" id="archive-phone" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入手机号码">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">性别</label>
+                            <select id="archive-gender" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">请选择性别</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-gray-700">年龄</label>
+                            <input type="number" id="archive-age" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入年龄" min="1" max="120">
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button onclick="tcmApp.hideCreateArchiveModal()" class="flex-1 bg-gray-500 text-white font-medium py-2 rounded-lg hover:bg-gray-600 transition-all duration-300">取消</button>
+                        <button onclick="tcmApp.confirmCreateArchive()" class="flex-1 bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition-all duration-300">确认创建</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 远程问诊（1:1） -->
+            <div id="consultation-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 w-full max-w-2xl mx-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center mr-3">
+                                <i class="fa fa-user-md text-white"></i>
+                            </div>
+                            <h2 class="text-xl font-bold">中医AI专家</h2>
+                        </div>
+                        <button id="close-consultation" class="text-white/70 hover:text-white transition-colors"><i class="fa fa-times text-xl"></i></button>
+                    </div>
+                    <div id="chat-messages" class="h-96 bg-white/5 rounded-xl p-4 mb-4 overflow-y-auto"></div>
+                    <div class="flex space-x-2">
+                        <input type="text" id="user-message" class="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent" placeholder="请输入您的症状或问题...">
+                        <button id="send-message" class="bg-accent hover:bg-accent/90 text-white font-medium rounded-lg px-6 transition-all duration-300 flex items-center justify-center"><i class="fa fa-paper-plane mr-1"></i> 发送</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关于我们页面 -->
+            <section id="about" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>关于我们</h2>
+                        <p>致力于智能医疗技术创新</p>
+                    </div>
+                    
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h3>我们的使命</h3>
+                            <p>通过人工智能技术，让每个人都能获得高质量的医疗健康服务，推动医疗行业的数字化转型。</p>
+                            
+                            <h3>技术优势</h3>
+                            <ul>
+                                <li>基于大数据的智能算法</li>
+                                <li>专业医学知识图谱</li>
+                                <li>24小时在线服务</li>
+                                <li>个性化健康管理</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <h4>1000+</h4>
+                                <p>服务用户</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>50+</h4>
+                                <p>合作医院</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>99.5%</h4>
+                                <p>准确率</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 中医四诊模态框 -->
+        <!-- 望诊模态框 -->
+        <div id="wang-diagnosis-modal" class="modal">
+            <div class="modal-content tcm-modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-eye"></i> 望诊检测</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="tcm-diagnosis-tabs">
+                        <button class="tcm-tab-btn active" data-tab="face-diagnosis">面诊</button>
+                        <button class="tcm-tab-btn" data-tab="tongue-diagnosis">舌诊</button>
+                    </div>
+                    
+                    <!-- 面诊界面 -->
+                    <div id="face-diagnosis" class="tcm-tab-content active">
+                        <div class="diagnosis-camera-section">
+                            <div class="camera-preview">
+                                <video id="face-camera" autoplay muted></video>
+                                <canvas id="face-canvas" style="display:none;"></canvas>
+                                <div class="camera-overlay">
+                                    <div class="face-guide">
+                                        <div class="guide-text">请将面部置于框内</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="camera-controls">
+                                <button id="start-face-camera" class="btn btn-primary">
+                                    <i class="fas fa-camera"></i> 启动摄像头
+                                </button>
+                                <button id="capture-face" class="btn btn-success" style="display:none;">
+                                    <i class="fas fa-camera-retro"></i> 拍照
+                                </button>
+                                <button id="stop-face-camera" class="btn btn-outline" style="display:none;">
+                                    <i class="fas fa-stop"></i> 停止
+                                </button>
+                            </div>
+                        </div>
+                        <div class="diagnosis-upload-section">
+                            <div class="upload-area" id="face-upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>或点击上传面部照片</p>
+                                <input type="file" id="face-upload" accept="image/*" style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 舌诊界面 -->
+                    <div id="tongue-diagnosis" class="tcm-tab-content">
+                        <div class="diagnosis-camera-section">
+                            <div class="camera-preview">
+                                <video id="tongue-camera" autoplay muted></video>
+                                <canvas id="tongue-canvas" style="display:none;"></canvas>
+                                <div class="camera-overlay">
+                                    <div class="tongue-guide">
+                                        <div class="guide-text">请将舌头置于框内</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="camera-controls">
+                                <button id="start-tongue-camera" class="btn btn-primary">
+                                    <i class="fas fa-camera"></i> 启动摄像头
+                                </button>
+                                <button id="capture-tongue" class="btn btn-success" style="display:none;">
+                                    <i class="fas fa-camera-retro"></i> 拍照
+                                </button>
+                                <button id="stop-tongue-camera" class="btn btn-outline" style="display:none;">
+                                    <i class="fas fa-stop"></i> 停止
+                                </button>
+                            </div>
+                        </div>
+                        <div class="diagnosis-upload-section">
+                            <div class="upload-area" id="tongue-upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>或点击上传舌象照片</p>
+                                <input type="file" id="tongue-upload" accept="image/*" style="display:none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" onclick="closeModal('wang-diagnosis-modal')">取消</button>
+                    <button id="analyze-wang" class="btn btn-primary">开始分析</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 问诊模态框 -->
+        <div id="wen-inquiry-modal" class="modal">
+            <div class="modal-content tcm-modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-comments"></i> 中医问诊</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="tcm-inquiry-form">
+                        <div class="inquiry-section">
+                            <h3>基本信息</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>年龄</label>
+                                    <input type="number" id="patient-age" class="form-input" min="1" max="120">
+                                </div>
+                                <div class="form-group">
+                                    <label>性别</label>
+                                    <select id="patient-gender" class="form-input">
+                                        <option value="">请选择</option>
+                                        <option value="male">男</option>
+                                        <option value="female">女</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="inquiry-section">
+                            <h3>主要症状</h3>
+                            <div class="symptom-categories">
+                                <div class="symptom-category">
+                                    <h4>头面部症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="头痛"> 头痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="头晕"> 头晕
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="耳鸣"> 耳鸣
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="目眩"> 目眩
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="symptom-category">
+                                    <h4>胸腹部症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="胸闷"> 胸闷
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="心悸"> 心悸
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="腹痛"> 腹痛
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="腹胀"> 腹胀
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="symptom-category">
+                                    <h4>全身症状</h4>
+                                    <div class="symptom-options">
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="乏力"> 乏力
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="失眠"> 失眠
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="多汗"> 多汗
+                                        </label>
+                                        <label class="symptom-option">
+                                            <input type="checkbox" value="怕冷"> 怕冷
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="inquiry-section">
+                            <h3>详细描述</h3>
+                            <textarea id="symptom-description" class="form-textarea" rows="4" 
+                                placeholder="请详细描述您的症状，包括发病时间、症状特点、加重或缓解因素等..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" onclick="closeModal('wen-inquiry-modal')">取消</button>
+                    <button id="analyze-inquiry" class="btn btn-primary">提交问诊</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 切诊模态框 -->
+        <div id="qie-diagnosis-modal" class="modal">
+            <div class="modal-content tcm-modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-heartbeat"></i> 切诊检测</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="pulse-diagnosis-section">
+                        <h3>脉象特征</h3>
+                        <div class="pulse-characteristics">
+                            <div class="pulse-category">
+                                <h4>脉率</h4>
+                                <div class="pulse-options">
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-rate" value="缓脉"> 缓脉（慢）
+                                    </label>
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-rate" value="平脉"> 平脉（正常）
+                                    </label>
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-rate" value="数脉"> 数脉（快）
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="pulse-category">
+                                <h4>脉力</h4>
+                                <div class="pulse-options">
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-strength" value="虚脉"> 虚脉（无力）
+                                    </label>
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-strength" value="实脉"> 实脉（有力）
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="pulse-category">
+                                <h4>脉形</h4>
+                                <div class="pulse-options">
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-form" value="弦脉"> 弦脉
+                                    </label>
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-form" value="滑脉"> 滑脉
+                                    </label>
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-form" value="涩脉"> 涩脉
+                                    </label>
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-form" value="浮脉"> 浮脉
+                                    </label>
+                                    <label class="pulse-option">
+                                        <input type="radio" name="pulse-form" value="沉脉"> 沉脉
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="pulse-description">
+                            <h4>脉象详细描述</h4>
+                            <textarea id="pulse-description" class="form-textarea" rows="3" 
+                                placeholder="请描述脉象的具体特征..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline" onclick="closeModal('qie-diagnosis-modal')">取消</button>
+                    <button id="analyze-pulse" class="btn btn-primary">分析脉象</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 网站底部 -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>智慧医疗AI</h3>
+                        <p>专业的医疗AI平台，让健康管理更智能</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>服务</h4>
+                        <ul>
+                            <li><a href="#services">症状分析</a></li>
+                            <li><a href="#services">健康评估</a></li>
+                            <li><a href="#ai-chat">AI咨询</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>支持</h4>
+                        <ul>
+                            <li><a href="#knowledge">帮助中心</a></li>
+                            <li><a href="#about">联系我们</a></li>
+                            <li><a href="#about">隐私政策</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 智慧医疗AI平台. 保留所有权利.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 登录弹窗 -->
+    <div id="loginModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>登录</h3>
+                <button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div id="login-error" style="display:none; color:#ef4444; font-size:13px;"></div>
+                <input id="login-username" type="text" placeholder="用户名" />
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input id="login-password" type="password" placeholder="密码" style="flex:1;" />
+                    <button class="btn btn-outline" onclick="togglePasswordVisibility('login-password', this)" style="white-space:nowrap;">显示</button>
+                </div>
+                <label style="display:flex; align-items:center; gap:8px;">
+                    <input id="login-remember" type="checkbox" checked />
+                    <span>保持登录（记住我）</span>
+                </label>
+                <button id="login-submit" class="btn btn-primary" onclick="submitLogin()">登录</button>
+                <div style="font-size:13px; color:#64748b;">
+                    没有账号？<a href="#" onclick="switchModal('loginModal','registerModal')">去注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册弹窗 -->
+    <div id="registerModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>注册</h3>
+                <button class="modal-close" onclick="closeModal('registerModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div id="register-error" style="display:none; color:#ef4444; font-size:13px;"></div>
+                <input id="register-username" type="text" placeholder="用户名（至少3个字符）" />
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input id="register-password" type="password" placeholder="密码（至少6位）" style="flex:1;" />
+                    <button class="btn btn-outline" onclick="togglePasswordVisibility('register-password', this)" style="white-space:nowrap;">显示</button>
+                </div>
+                
+                <!-- 角色选择 -->
+                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <label style="display: block; font-weight: 600; color: #1e293b; margin-bottom: 12px; font-size: 14px;">
+                        <i class="fas fa-user-tag" style="color: #3b82f6;"></i> 选择您的角色
+                    </label>
+                    <div style="display: flex; gap: 12px;">
+                        <label class="role-option" style="flex: 1; cursor: pointer; padding: 12px; background: white; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; transition: all 0.2s;">
+                            <input type="radio" name="register-role" value="user" checked style="display: none;" onchange="updateRoleSelection(this)" />
+                            <div style="font-size: 24px; margin-bottom: 4px;">🧑‍🤝‍🧑</div>
+                            <div style="font-weight: 600; color: #1e293b; font-size: 14px;">患者</div>
+                            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">使用诊疗服务</div>
+                        </label>
+                        <label class="role-option" style="flex: 1; cursor: pointer; padding: 12px; background: white; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; transition: all 0.2s;">
+                            <input type="radio" name="register-role" value="doctor" style="display: none;" onchange="updateRoleSelection(this)" />
+                            <div style="font-size: 24px; margin-bottom: 4px;">👨‍⚕️</div>
+                            <div style="font-weight: 600; color: #1e293b; font-size: 14px;">医生</div>
+                            <div style="font-size: 11px; color: #64748b; margin-top: 2px;">提供诊疗服务</div>
+                        </label>
+                    </div>
+                </div>
+                
+                <button id="register-submit" class="btn btn-primary" onclick="submitRegister()">注册</button>
+                <div style="font-size:13px; color:#64748b;">
+                    已有账号？<a href="#" onclick="switchModal('registerModal','loginModal')">去登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑档案弹窗 -->
+    <div id="recordEditModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑健康档案</h3>
+                <button class="modal-close" onclick="closeModal('recordEditModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:12px;">
+                <input id="edit-name" type="text" placeholder="姓名" />
+                <div style="display:flex; gap:12px;">
+                    <input id="edit-age" type="number" placeholder="年龄" style="flex:1;" />
+                    <select id="edit-gender" style="flex:1;">
+                        <option value="unknown">未知</option>
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:12px;">
+                    <input id="edit-height" type="number" placeholder="身高(cm)" style="flex:1;" />
+                    <input id="edit-weight" type="number" placeholder="体重(kg)" style="flex:1;" />
+                </div>
+                <input id="edit-allergies" type="text" placeholder="过敏史（以逗号分隔）" />
+                <input id="edit-diagnoses" type="text" placeholder="既往诊断（以逗号分隔）" />
+                <input id="edit-meds" type="text" placeholder="当前用药（以逗号分隔）" />
+                <textarea id="edit-notes" rows="3" placeholder="备注"></textarea>
+                <button class="btn btn-primary" onclick="submitRecordEdit()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑病历弹窗 -->
+    <div id="emrEditModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:900px; width:90vw; max-height:80vh; overflow:auto;">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> 编辑病历</h3>
+                <button class="modal-close" onclick="closeModal('emrEditModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="emr-edit-container" style="display:flex; flex-direction:column; gap:16px;">
+                    <div class="emr-sections">
+                        <div class="emr-section">
+                            <h4><i class="fas fa-user-md"></i> 主诉</h4>
+                            <textarea id="edit-chief-complaint" class="emr-textarea" rows="2" placeholder="患者主诉症状..."></textarea>
+                        </div>
+                        <div class="emr-section">
+                            <h4><i class="fas fa-history"></i> 现病史</h4>
+                            <textarea id="edit-present-illness" class="emr-textarea" rows="4" placeholder="患者现病史..."></textarea>
+                        </div>
+                        <div class="emr-section">
+                            <h4><i class="fas fa-clock"></i> 既往史</h4>
+                            <textarea id="edit-past-history" class="emr-textarea" rows="2" placeholder="患者既往史..."></textarea>
+                        </div>
+                        <div class="emr-section">
+                            <h4><i class="fas fa-exclamation-triangle"></i> 过敏史</h4>
+                            <textarea id="edit-allergy-history" class="emr-textarea" rows="2" placeholder="患者过敏史..."></textarea>
+                        </div>
+                        <div class="emr-section">
+                            <h4><i class="fas fa-stethoscope"></i> 体格检查</h4>
+                            <textarea id="edit-physical-exam" class="emr-textarea" rows="3" placeholder="体格检查结果..."></textarea>
+                        </div>
+                        <div class="emr-section">
+                            <h4><i class="fas fa-flask"></i> 辅助检查</h4>
+                            <textarea id="edit-auxiliary-exam" class="emr-textarea" rows="2" placeholder="辅助检查结果..."></textarea>
+                        </div>
+                        <div class="emr-section">
+                            <h4><i class="fas fa-diagnoses"></i> 初步诊断</h4>
+                            <textarea id="edit-diagnosis" class="emr-textarea" rows="2" placeholder="初步诊断..."></textarea>
+                        </div>
+                        <div class="emr-section">
+                            <h4><i class="fas fa-notes-medical"></i> 诊疗计划</h4>
+                            <textarea id="edit-treatment-plan" class="emr-textarea" rows="3" placeholder="诊疗计划..."></textarea>
+                        </div>
+                    </div>
+                    <div class="emr-edit-actions" style="display:flex; gap:12px; justify-content:flex-end; padding-top:16px; border-top:1px solid #e5e7eb;">
+                        <button class="btn btn-outline" onclick="closeModal('emrEditModal')">取消</button>
+                        <button class="btn btn-primary" onclick="saveEditedEmr()">保存修改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 知识详情弹窗 -->
+    <div id="knowledgeDetailModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="knowledge-detail-title">文章详情</h3>
+                <button class="modal-close" onclick="closeModal('knowledgeDetailModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="knowledge-detail-content" style="display:flex; flex-direction:column; gap:12px; white-space:pre-wrap; line-height:1.7;"></div>
+        </div>
+    </div>
+
+    <!-- 百度地图API - 请将"您的百度地图API密钥"替换为您的实际API密钥 -->
+    <!-- 获取API密钥：访问 https://lbs.baidu.com/apiconsole/key 创建应用并申请密钥 -->
+    <!-- 本地开发白名单配置：localhost 或 127.0.0.1 或 * -->
+    <script>
+        console.log('开始加载百度地图API...');
+        console.log('API URL:', 'https://api.map.baidu.com/api?v=3.0&ak=Un8zL6pPuhRawQ3vYUeqYENn5MqGyD2f&callback=initBaiduMap');
+        console.log('当前域名:', window.location.hostname);
+        console.log('当前端口:', window.location.port);
+    </script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=Un8zL6pPuhRawQ3vYUeqYENn5MqGyD2f&callback=initBaiduMap"></script>
+
+    <!-- 百度地图API状态监控 -->
+    <script>
+        // 百度地图API初始化完成回调（与script.js中的函数同步）
+        function initBaiduMap() {
+            window.baiduMapLoaded = true;
+            console.log('百度地图API初始化完成');
+
+            // 更新状态指示器
+            setTimeout(updateMapAPIStatus, 100);
+        }
+
+        // 百度地图API状态监控函数
+        function updateMapAPIStatus() {
+            const statusElement = document.getElementById('map-api-status');
+            if (!statusElement) return;
+
+            // 检查API是否已加载并初始化
+            if (!window.baiduMapLoaded || typeof BMap === 'undefined') {
+                statusElement.innerHTML = '⏳ 百度地图API初始化中...';
+                statusElement.style.color = '#f39c12';
+
+                // 如果BMap对象已存在但标志未设置，可能是异步问题
+                if (typeof BMap !== 'undefined' && !window.baiduMapLoaded) {
+                    window.baiduMapLoaded = true;
+                    console.log('检测到BMap对象，手动设置加载标志');
+                }
+                return;
+            }
+
+            const version = BMap.version || '未知版本';
+            statusElement.innerHTML = `✅ 百度地图API正常 (${version})`;
+            statusElement.style.color = '#27ae60';
+
+            // 检查关键组件
+            const components = ['Map', 'Point', 'Marker', 'LocalSearch'];
+            const available = components.filter(c => BMap[c]).length;
+            const total = components.length;
+
+            if (available === total) {
+                console.log('✅ 百度地图API所有组件正常');
+            } else {
+                console.warn(`⚠️ 百度地图API部分组件可用: ${available}/${total}`);
+                statusElement.innerHTML = `⚠️ 百度地图API部分可用 (${available}/${total})`;
+                statusElement.style.color = '#f39c12';
+            }
+        }
+
+        // 添加状态指示器（仅本地开发环境）
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            document.addEventListener('DOMContentLoaded', function() {
+                const statusDiv = document.createElement('div');
+                statusDiv.id = 'map-api-status';
+                statusDiv.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background: white;
+                    border: 2px solid #007cba;
+                    border-radius: 8px;
+                    padding: 6px 10px;
+                    font-size: 11px;
+                    font-family: Arial, sans-serif;
+                    z-index: 10000;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                    cursor: pointer;
+                `;
+                statusDiv.innerHTML = '⏳ 检查百度地图API...';
+                statusDiv.title = '左键：打开测试页面，右键：强制重新加载API';
+                statusDiv.onclick = function() {
+                    window.open('test_map.html', '_blank');
+                };
+                document.body.appendChild(statusDiv);
+
+                // 立即开始监控
+                updateMapAPIStatus();
+
+                // 每1秒检查一次状态
+                setInterval(updateMapAPIStatus, 1000);
+            });
+        }
+
+        // 强制重新加载百度地图API（全局函数，可通过控制台调用）
+        window.forceReloadBaiduMap = function() {
+            console.log('正在强制重新加载百度地图API...');
+
+            // 移除现有的百度地图脚本
+            const existingScripts = document.querySelectorAll('script[src*="api.map.baidu.com"]');
+            existingScripts.forEach(script => {
+                script.remove();
+                console.log('已移除旧的百度地图脚本');
+            });
+
+            // 重置标志
+            window.baiduMapLoaded = false;
+
+            // 重新加载脚本
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = `https://api.map.baidu.com/api?v=3.0&ak=Un8zL6pPuhRawQ3vYUeqYENn5MqGyD2f&callback=initBaiduMap&t=${Date.now()}`;
+            script.onload = function() {
+                console.log('✅ 百度地图API重新加载完成');
+            };
+            script.onerror = function() {
+                console.error('❌ 百度地图API重新加载失败');
+            };
+            document.head.appendChild(script);
+
+            // 更新状态指示器
+            const statusElement = document.getElementById('map-api-status');
+            if (statusElement) {
+                statusElement.innerHTML = '🔄 重新加载中...';
+                statusElement.style.color = '#007cba';
+            }
+        };
+    </script>
+
+    <!-- JavaScript -->
+    <script src="ai-medical.js?v=20251022-4"></script>
+    <script src="script.js?v=20251022-4"></script>
+    <script src="pre_consultation.js?v=20251022-4"></script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧医疗AI平台 - 专业健康管理解决方案</title>
+    <!-- 高端字体引入 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- 站点图标与主题色 -->
+    <meta name="theme-color" content="#0c4a6e">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect rx='12' width='48' height='48' fill='%230c4a6e'/%3E%3Cpath d='M24 9a2 2 0 0 1 2 2v9h9a2 2 0 1 1 0 4h-9v9a2 2 0 1 1-4 0v-9h-9a2 2 0 1 1 0-4h9v-9a2 2 0 0 1 2-2Z' fill='white'/%3E%3C/svg%3E">
+    <meta name="description" content="智慧医疗AI平台，提供专业的症状分析、疾病预测、药物推荐等智能健康管理服务">
+    <meta name="keywords" content="医疗AI,智能诊断,健康管理,症状分析,疾病预测">
+</head>
+<body>
+    <!-- 高端加载屏幕 -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-stethoscope"></i>
+                </div>
+                <div class="logo-pulse"></div>
+            </div>
+            <h2 class="loading-title">智慧医疗AI平台</h2>
+            <p class="loading-subtitle">专业健康管理解决方案</p>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 网站主体结构 -->
+    <div class="website-container">
+        <!-- 网站头部导航 -->
+        <header class="site-header">
+            <nav class="navbar">
+                <div class="nav-container">
+                    <!-- 品牌Logo -->
+                    <div class="brand-logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="brand-text">
+                            <h1>智慧医疗AI</h1>
+                            <span>MedicalAI Pro</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 主导航菜单 -->
+                    <ul class="nav-menu" id="nav-menu">
+                        <li class="nav-item">
+                            <a href="#home" class="nav-link active" data-page="home">
+                                <i class="fas fa-home"></i>
+                                <span>首页</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#services" class="nav-link" data-page="services">
+                                <i class="fas fa-medical-bag"></i>
+                                <span>医疗服务</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#ai-chat" class="nav-link" data-page="ai-chat">
+                                <i class="fas fa-robot"></i>
+                                <span>AI咨询</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#knowledge" class="nav-link" data-page="knowledge">
+                                <i class="fas fa-book-medical"></i>
+                                <span>健康知识</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#about" class="nav-link" data-page="about">
+                                <i class="fas fa-info-circle"></i>
+                                <span>关于我们</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <!-- 用户操作区 -->
+                    <div class="nav-actions">
+                        <button class="btn btn-outline">登录</button>
+                        <button class="btn btn-primary">注册</button>
+                        <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 首页内容 -->
+            <section id="home" class="page-section active">
+                <!-- Hero区域 -->
+                <div class="hero-section">
+                    <div class="hero-container">
+                        <div class="hero-content">
+                            <div class="hero-text">
+                                <h1 class="hero-title">
+                                    <span class="title-main">智慧医疗AI平台</span>
+                                    <span class="title-sub">引领健康管理新时代</span>
+                                </h1>
+                                <p class="hero-description">
+                                    基于前沿人工智能技术，为您提供专业的症状分析、疾病风险评估、
+                                    个性化健康建议和智能医疗咨询服务，让健康管理更科学、更便捷。
+                                </p>
+                                <div class="hero-actions">
+                                    <button class="btn btn-primary btn-large" onclick="showPage('ai-chat')">
+                                        <i class="fas fa-comments"></i>
+                                        开始AI咨询
+                                    </button>
+                                    <button class="btn btn-outline btn-large" onclick="showPage('services')">
+                                        <i class="fas fa-play"></i>
+                                        了解服务
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="hero-visual">
+                                <div class="hero-image">
+                                    <div class="medical-illustration">
+                                        <i class="fas fa-heartbeat pulse-icon"></i>
+                                        <div class="floating-icons">
+                                            <i class="fas fa-stethoscope icon-float-1"></i>
+                                            <i class="fas fa-pills icon-float-2"></i>
+                                            <i class="fas fa-user-md icon-float-3"></i>
+                                            <i class="fas fa-chart-line icon-float-4"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 特色服务区域 -->
+                <div class="features-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2>核心服务特色</h2>
+                            <p>专业、智能、便捷的医疗AI解决方案</p>
+                        </div>
+                        <div class="features-grid">
+                            <div class="feature-card" onclick="showPage('ai-chat')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h3>智能症状分析</h3>
+                                <p>基于大数据和机器学习，准确分析症状，提供初步诊断建议</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showFeature('drug-recommendation')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-pills"></i>
+                                </div>
+                                <h3>个性化用药建议</h3>
+                                <p>根据患者情况和病史，智能推荐合适的药物治疗方案</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showFeature('health-monitoring')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chart-pulse"></i>
+                                </div>
+                                <h3>健康风险评估</h3>
+                                <p>综合分析生活习惯和体征数据，预测疾病风险</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                            <div class="feature-card" onclick="showPage('knowledge')">
+                                <div class="feature-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <h3>健康知识库</h3>
+                                <p>海量医疗知识和健康资讯，帮助您了解疾病预防</p>
+                                <div class="feature-arrow">
+                                    <i class="fas fa-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 医疗服务页面 -->
+            <section id="services" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>专业医疗服务</h2>
+                        <p>全方位的智能医疗解决方案</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-category">
+                            <h3>患者服务</h3>
+                            <div class="service-cards">
+                                <div class="service-card" onclick="showFeature('symptom-analysis')">
+                                    <i class="fas fa-search-plus"></i>
+                                    <h4>症状自检</h4>
+                                    <p>智能分析症状，提供初步诊断建议</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('health-record')">
+                                    <i class="fas fa-file-medical"></i>
+                                    <h4>健康档案</h4>
+                                    <p>个人健康数据管理和追踪</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('appointment')">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <h4>预约挂号</h4>
+                                    <p>在线预约专家门诊服务</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-category">
+                            <h3>医生工具</h3>
+                            <div class="service-cards">
+                                <div class="service-card" onclick="showFeature('diagnosis-assist')">
+                                    <i class="fas fa-microscope"></i>
+                                    <h4>诊断辅助</h4>
+                                    <p>AI辅助诊断和治疗建议</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('patient-manage')">
+                                    <i class="fas fa-users"></i>
+                                    <h4>患者管理</h4>
+                                    <p>高效管理患者信息和病历</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('medical-reference')">
+                                    <i class="fas fa-book-open"></i>
+                                    <h4>医学参考</h4>
+                                    <p>最新医学文献和指南</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="service-category">
+                            <h3>家属关怀</h3>
+                            <div class="service-cards">
+                                <div class="service-card" onclick="showFeature('family-monitor')">
+                                    <i class="fas fa-heart"></i>
+                                    <h4>健康监护</h4>
+                                    <p>家人健康状况实时关注</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('care-guide')">
+                                    <i class="fas fa-hands-helping"></i>
+                                    <h4>护理指导</h4>
+                                    <p>专业的家庭护理建议</p>
+                                </div>
+                                <div class="service-card" onclick="showFeature('emergency-help')">
+                                    <i class="fas fa-ambulance"></i>
+                                    <h4>紧急求助</h4>
+                                    <p>紧急情况快速响应</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI咨询页面 -->
+            <section id="ai-chat" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>AI智能咨询</h2>
+                        <p>24小时在线医疗AI助手</p>
+                    </div>
+                    
+                    <div class="chat-container">
+                        <div class="chat-sidebar">
+                            <div class="consultation-types">
+                                <h3>咨询类型</h3>
+                                <div class="type-buttons">
+                                    <button class="type-btn active" data-type="symptom">症状分析</button>
+                                    <button class="type-btn" data-type="drug">用药咨询</button>
+                                    <button class="type-btn" data-type="health">健康建议</button>
+                                    <button class="type-btn" data-type="emergency">紧急咨询</button>
+                                </div>
+                            </div>
+                            
+                            <div class="ai-connection-status">
+                                <h3>AI服务状态</h3>
+                                <div class="connection-info">
+                                    <span id="connection-status" class="status-offline">检查中...</span>
+                                    <button id="reconnect-btn" class="reconnect-btn" onclick="forceReconnect()">重新连接</button>
+                                </div>
+                            </div>
+                            
+                            <div class="active-record">
+                                <h3>当前激活档案</h3>
+                                <div id="active-record-box" class="knowledge-card">
+                                    <p>未选择档案</p>
+                                </div>
+                            </div>
+                            
+                            <div class="quick-symptoms">
+                                <h3>常见症状</h3>
+                                <div class="symptom-tags">
+                                    <span class="symptom-tag" onclick="selectSymptom('发热')">发热</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('头痛')">头痛</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('咳嗽')">咳嗽</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('胸痛')">胸痛</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('腹痛')">腹痛</span>
+                                    <span class="symptom-tag" onclick="selectSymptom('恶心')">恶心</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-main">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message ai-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <p>您好！我是您的AI医疗助手。请描述您的症状或健康问题，我将为您提供专业的分析和建议。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input-area">
+                                <div class="input-container">
+                                    <textarea id="messageInput" placeholder="请描述您的症状或问题..." rows="2"></textarea>
+                                    <div class="input-actions">
+                                        <button class="action-btn voice-btn" title="语音输入">
+                                            <i class="fas fa-microphone"></i>
+                                        </button>
+                                        <button class="action-btn send-btn" onclick="sendMessage()" title="发送">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 健康知识页面 -->
+            <section id="knowledge" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>健康知识库</h2>
+                        <p>专业医疗知识与健康资讯</p>
+                    </div>
+                    
+                    <div class="knowledge-grid">
+                        <div class="knowledge-category">
+                            <h3>疾病百科</h3>
+                            <div class="knowledge-cards">
+                                <div class="knowledge-card">
+                                    <h4>常见疾病</h4>
+                                    <p>感冒、发烧、头痛等常见疾病的症状、原因和治疗方法</p>
+                                </div>
+                                <div class="knowledge-card">
+                                    <h4>慢性疾病</h4>
+                                    <p>高血压、糖尿病、心脏病等慢性疾病的管理和预防</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="knowledge-category">
+                            <h3>健康养生</h3>
+                            <div class="knowledge-cards">
+                                <div class="knowledge-card">
+                                    <h4>饮食营养</h4>
+                                    <p>健康饮食搭配、营养补充和食疗养生知识</p>
+                                </div>
+                                <div class="knowledge-card">
+                                    <h4>运动健身</h4>
+                                    <p>科学运动方法、健身指导和运动安全知识</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 关于我们页面 -->
+            <section id="about" class="page-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>关于我们</h2>
+                        <p>致力于智能医疗技术创新</p>
+                    </div>
+                    
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h3>我们的使命</h3>
+                            <p>通过人工智能技术，让每个人都能获得高质量的医疗健康服务，推动医疗行业的数字化转型。</p>
+                            
+                            <h3>技术优势</h3>
+                            <ul>
+                                <li>基于大数据的智能算法</li>
+                                <li>专业医学知识图谱</li>
+                                <li>24小时在线服务</li>
+                                <li>个性化健康管理</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <h4>1000+</h4>
+                                <p>服务用户</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>50+</h4>
+                                <p>合作医院</p>
+                            </div>
+                            <div class="stat-item">
+                                <h4>99.5%</h4>
+                                <p>准确率</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 网站底部 -->
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>智慧医疗AI</h3>
+                        <p>专业的医疗AI平台，让健康管理更智能</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>服务</h4>
+                        <ul>
+                            <li><a href="#services">症状分析</a></li>
+                            <li><a href="#services">健康评估</a></li>
+                            <li><a href="#ai-chat">AI咨询</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>支持</h4>
+                        <ul>
+                            <li><a href="#knowledge">帮助中心</a></li>
+                            <li><a href="#about">联系我们</a></li>
+                            <li><a href="#about">隐私政策</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 智慧医疗AI平台. 保留所有权利.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 登录弹窗 -->
+    <div id="loginModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>登录</h3>
+                <button class="modal-close" onclick="closeModal('loginModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div id="login-error" style="display:none; color:#ef4444; font-size:13px;"></div>
+                <input id="login-username" type="text" placeholder="用户名" />
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input id="login-password" type="password" placeholder="密码" style="flex:1;" />
+                    <button class="btn btn-outline" onclick="togglePasswordVisibility('login-password', this)" style="white-space:nowrap;">显示</button>
+                </div>
+                <label style="display:flex; align-items:center; gap:8px;">
+                    <input id="login-remember" type="checkbox" checked />
+                    <span>保持登录（记住我）</span>
+                </label>
+                <button id="login-submit" class="btn btn-primary" onclick="submitLogin()">登录</button>
+                <div style="font-size:13px; color:#64748b;">
+                    没有账号？<a href="#" onclick="switchModal('loginModal','registerModal')">去注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册弹窗 -->
+    <div id="registerModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>注册</h3>
+                <button class="modal-close" onclick="closeModal('registerModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:12px;">
+                <div id="register-error" style="display:none; color:#ef4444; font-size:13px;"></div>
+                <input id="register-username" type="text" placeholder="用户名（至少3个字符）" />
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <input id="register-password" type="password" placeholder="密码（至少6位）" style="flex:1;" />
+                    <button class="btn btn-outline" onclick="togglePasswordVisibility('register-password', this)" style="white-space:nowrap;">显示</button>
+                </div>
+                <button id="register-submit" class="btn btn-primary" onclick="submitRegister()">注册</button>
+                <div style="font-size:13px; color:#64748b;">
+                    已有账号？<a href="#" onclick="switchModal('registerModal','loginModal')">去登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑档案弹窗 -->
+    <div id="recordEditModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>编辑健康档案</h3>
+                <button class="modal-close" onclick="closeModal('recordEditModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="display:flex; flex-direction:column; gap:12px;">
+                <input id="edit-name" type="text" placeholder="姓名" />
+                <div style="display:flex; gap:12px;">
+                    <input id="edit-age" type="number" placeholder="年龄" style="flex:1;" />
+                    <select id="edit-gender" style="flex:1;">
+                        <option value="unknown">未知</option>
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:12px;">
+                    <input id="edit-height" type="number" placeholder="身高(cm)" style="flex:1;" />
+                    <input id="edit-weight" type="number" placeholder="体重(kg)" style="flex:1;" />
+                </div>
+                <input id="edit-allergies" type="text" placeholder="过敏史（以逗号分隔）" />
+                <input id="edit-diagnoses" type="text" placeholder="既往诊断（以逗号分隔）" />
+                <input id="edit-meds" type="text" placeholder="当前用药（以逗号分隔）" />
+                <textarea id="edit-notes" rows="3" placeholder="备注"></textarea>
+                <button class="btn btn-primary" onclick="submitRecordEdit()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="ai-medical.js?v=20250910-1"></script>
+    <script src="script.js?v=20250910-1"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+# 医疗AI平台 - 部署文件清单
+# 此文件列出了部署到新环境时需要包含的文件和目录
+
+# ==========================================
+# 必需文件（核心功能）
+# ==========================================
+
+# 后端服务
+backend_server.py
+medication_management.py
+
+# 前端文件
+index.html
+medication.html
+script.js
+ai-medical.js
+medication.js
+pre_consultation.js
+utils_camera.js
+styles.css
+
+# 启动和部署脚本
+start_app.py
+start.bat
+restart.bat
+stop.bat
+deploy.bat
+deploy.sh
+check_environment.py
+
+# 配置文件
+requirements.txt
+.env.example
+README.md
+部署指南.md
+
+# ==========================================
+# 数据目录（首次部署可为空）
+# ==========================================
+data/
+data/uploads/
+
+# ==========================================
+# 可选模块
+# ==========================================
+
+# 中医功能模块（如需要）
+中医部分/
+中医部分/camera_diagnostics.js
+中医部分/index.html
+中医部分/simple_index.html
+中医部分/static/
+中医部分/server/
+
+# ==========================================
+# 不需要部署的文件
+# ==========================================
+
+# Python缓存（会自动生成）
+__pycache__/
+
+# 日志文件
+*.log
+backend.log
+frontend.log
+
+# Git相关（如不需要版本控制）
+.git/
+.gitignore
+
+# 测试文件（不影响运行）
+test_*.py
+test_*.html
+test_*.js
+
+# 文档和说明（可选）
+*.md
+docs/
+coze基础/
+
+# 个人配置和临时文件
+*.tmp
+*.bak
+.vscode/
+.idea/
+
+
